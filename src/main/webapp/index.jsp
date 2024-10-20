@@ -2,11 +2,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>JSP - Hello World</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduScore Login</title>
+  <style>
+    <%@ include file="resources/css/style.css"%>
+  </style>
 </head>
 <body>
-<h1><%= "Hello World!" %></h1>
-<br/>
-<a href="hello-servlet">Hello Servlet</a>
+<div class="login-container">
+  <div class="login-box">
+    <h2>Login</h2>
+    <form action="${pageContext.request.contextPath}/hello-servlet" method="post">
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</div>
 </body>
 </html>
