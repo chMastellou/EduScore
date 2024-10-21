@@ -13,7 +13,7 @@
 <div class="login-container">
   <div class="login-box">
     <h2>Login</h2>
-    <form action="${pageContext.request.contextPath}/hello-servlet" method="post">
+    <form action="${pageContext.request.contextPath}/login" method="post">
       <div class="input-group">
         <label for="username">Username</label>
         <input type="text" id="username" name="username" required>
