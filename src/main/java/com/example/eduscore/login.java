@@ -24,13 +24,14 @@ public class login extends HttpServlet {
         String pass = request.getParameter("password");
 
         if (username.equals("student") && pass.equals("s123")) {
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(true);
 
             out.println("<html><body>");
             out.println("<h1>" + message + "</h1>");
             out.println("<h3> Your session ID: " + session.getId() + "</h3>");
             out.println("<h3> Creation time: " + session.getCreationTime() + "</h3>");
             out.println("</body></html>");
+            session.invalidate();
         }
 
     }
