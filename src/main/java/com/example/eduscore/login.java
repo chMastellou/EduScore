@@ -1,6 +1,7 @@
 package com.example.eduscore;
 
 import java.io.*;
+import java.sql.DriverManager;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
@@ -31,6 +32,18 @@ public class login extends HttpServlet {
             out.println("<h3> Your session ID: " + session.getId() + "</h3>");
             out.println("<h3> Creation time: " + session.getCreationTime() + "</h3>");
             out.println("</body></html>");
+
+            try {
+                var connection = PostgresqlTest.DBconnect();
+                var statement = connection.prepareStatement("select title from subjects where field='Science';");
+                var resultSet = statement.executeQuery();
+                while(resultSet.next()) {
+                    String subject = resultSet.getString("title");
+                    out.println("<h3>" + subject + "</h3>");
+                }
+            } catch(Exception e) {
+                out.println("problem");
+            }
             session.invalidate();
         }
 
