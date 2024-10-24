@@ -25,18 +25,18 @@ body, html {
 /* Login box styling */
 .login-box {
     background-color: white;
-    border: 2px solid #1e90ff; /* Blue border */
+    border: 2px solid #051a57; /* Blue border */
     padding: 40px;
     width: 320px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 6px; /* Slight rounding for cleaner look */
+    /* border-radius: 6px; */ /* Slight rounding for cleaner look */
 }
 
 /* Title styling */
 .login-box h2 {
     margin-bottom: 20px;
     text-align: center;
-    color: #1e90ff; /* Blue title */
+    color: #051a57; /* Blue title */
 }
 
 /* Input group styling */
@@ -53,8 +53,105 @@ body, html {
 .input-group input {
     width: 100%;
     padding: 10px;
-    border: 2px solid #1e90ff;
+    border: 2px solid #051a57;
     border-radius: 4px;
+    background-color: #f0f8ff; /* Light blue input background */
+    color: #333;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+/* Focus effect on input fields */
+.input-group input:focus {
+    border-color: #051a57; /* Darker blue on focus */
+    outline: none;
+}
+
+/* Button styling */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #051a57;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    /* border-radius: 4px; */
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #051a57; /* Darker blue on hover */
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+    .login-box {
+        width: 90%;
+        padding: 30px;
+    }
+}
+
+
+
+
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body, html {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f8ff; /* Light blue background */
+}
+
+/* Login container */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Login box styling */
+.login-box {
+    background-color: white;
+    border: 2px solid #051a57; /* Blue border */
+    padding: 40px;
+    width: 320px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   /* border-radius: 6px; */ /* Slight rounding for cleaner look */
+}
+
+/* Title styling */
+.login-box h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #051a57; /* Blue title */
+}
+
+/* Input group styling */
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #051a57;
+    /* border-radius: 4px; */
     background-color: #f0f8ff; /* Light blue input background */
     color: #333;
     font-size: 14px;
@@ -71,12 +168,12 @@ body, html {
 button {
     width: 100%;
     padding: 12px;
-    background-color: #1e90ff;
+    background-color: #051a57;
     border: none;
     color: white;
     font-size: 16px;
     cursor: pointer;
-    border-radius: 4px;
+    /* border-radius: 4px; */
     transition: background-color 0.3s;
 }
 

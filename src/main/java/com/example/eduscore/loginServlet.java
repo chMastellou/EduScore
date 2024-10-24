@@ -1,14 +1,13 @@
 package com.example.eduscore;
 
 import java.io.*;
-import java.sql.DriverManager;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 @WebServlet(name = "login", value = "/login")
-public class login extends HttpServlet {
+public class loginServlet extends HttpServlet {
 
     private String message;
 
@@ -31,11 +30,17 @@ public class login extends HttpServlet {
             out.println("<h1>" + message + "</h1>");
             out.println("<h3> Your session ID: " + session.getId() + "</h3>");
             out.println("<h3> Creation time: " + session.getCreationTime() + "</h3>");
+            out.println("<h3>Welcome: "+ username +"</h3>");
+            out.println("<h3>Your pass is: "+ pass +"</h3>");
             out.println("</body></html>");
-
+            //getServletContext().getRequestDispatcher("/StudentPage").forward(request, response);
+            response.sendRedirect("/Student?username="+username+"&password="+pass);
+ /*
             try {
-                var connection = PostgresqlTest.DBconnect();
-                var statement = connection.prepareStatement("select title from subjects where field='Science';");
+                java.sql.PreparedStatement statement;
+                try (var connection = PostgresqlTest.DBconnect()) {
+                    statement = connection.prepareStatement("select title from subjects where field='Science';");
+                }
                 var resultSet = statement.executeQuery();
                 while(resultSet.next()) {
                     String subject = resultSet.getString("title");
@@ -44,7 +49,9 @@ public class login extends HttpServlet {
             } catch(Exception e) {
                 out.println("problem");
             }
-            session.invalidate();
+
+ */
+            session.invalidate(); // γιατί invalidate? θες να κρατήσεις το session εκτός και αν ο χρήστης κάνει logout
         }
 
     }

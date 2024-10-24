@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EduScore Login</title>
+  <title>Login</title>
+  <link rel="icon" type="image/x-icon" href="resources/Images/logo.ico">
   <style>
     <%@ include file="resources/css/style.css"%>
   </style>
