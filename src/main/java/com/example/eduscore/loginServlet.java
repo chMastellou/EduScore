@@ -24,17 +24,22 @@ public class loginServlet extends HttpServlet {
         String pass = request.getParameter("password");
 
         if (username.equals("student") && pass.equals("s123")) {
-            HttpSession session = request.getSession(true);
+
+            HttpSession session = request.getSession();         // create new session and pass parameters
+            session.setAttribute("username", username);
+            session.setAttribute("role", "student");
 
             out.println("<html><body>");
             out.println("<h1>" + message + "</h1>");
             out.println("<h3> Your session ID: " + session.getId() + "</h3>");
             out.println("<h3> Creation time: " + session.getCreationTime() + "</h3>");
-            out.println("<h3>Welcome: "+ username +"</h3>");
-            out.println("<h3>Your pass is: "+ pass +"</h3>");
+            out.println("<h3>Welcome: " + username + "</h3>");
+            out.println("<h3>Your pass is: " + pass + "</h3>");
             out.println("</body></html>");
-            //getServletContext().getRequestDispatcher("/StudentPage").forward(request, response);
-            response.sendRedirect("/Student?username="+username+"&password="+pass);
+
+
+            request.getRequestDispatcher("StudentPage.jsp").forward(request, response);
+
  /*
             try {
                 java.sql.PreparedStatement statement;
@@ -52,6 +57,14 @@ public class loginServlet extends HttpServlet {
 
  */
             session.invalidate(); // γιατί invalidate? θες να κρατήσεις το session εκτός και αν ο χρήστης κάνει logout
+        }else if(username.equals("kyrios") && pass.equals("k123")){
+            HttpSession session = request.getSession();         // create new session and pass parameters
+            session.setAttribute("username", username);
+            session.setAttribute("role", "teacher");
+
+            request.getRequestDispatcher("TeacherPage.jsp").forward(request, response);
+        }else{
+            response.sendRedirect("/");
         }
 
     }
