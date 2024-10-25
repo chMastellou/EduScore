@@ -45,6 +45,7 @@ Your role is <%=session.getAttribute("role")%>  <br>
 %>
 
 <p>Session Creation Time: <%= formattedDate %></p>
-
+<br/>
+<a href="index.jsp">Login Screen</a>
 </body>
 </html>
