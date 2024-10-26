@@ -35,14 +35,14 @@
     <!-- Left Menu -->
     <nav class="left-menu">
         <ul>
-            <li><img src="https://www.pngall.com/wp-content/uploads/5/Profile-Avatar-PNG.png" alt="Italian Trulli" width="100" /></li>
-            <li><h4>Καθηγητή:</h4><%=session.getAttribute("username")%></li>
+            <li><img src="https://i.imgur.com/lDhdDkK.png" alt="Italian Trulli" width="100" /></li>
+            <li><h4>Καθηγητής:</h4><p><%=session.getAttribute("username")%></p></li>
             <br>
             <br>
             <li><a href="#" onclick="showContent('option1')">Πληροφορίες Καθηγητή</a></li>
             <li><a href="#" onclick="showContent('option2')">Βαθμολογίες</a></li>
-            <li><a href="#" onclick="showContent('option3')">Βαθμολόγησε</a></li>
-            <li><a href="${pageContext.request.contextPath}/Logout">Login Page</a></li>
+            <li><a href="#" onclick="showContent('option3')">Βαθμολόγησε</a></li><br>
+            <li><a style="color: #4dc9b4" href="${pageContext.request.contextPath}/Logout">Logout</a></li>
         </ul>
     </nav>
 

@@ -13,6 +13,7 @@
 <body>
 <div class="login-container">
   <div class="login-box">
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img src="https://i.imgur.com/kDAooXp.png" alt="Logo" width="100"/>
     <h2>Login</h2>
     <form action="${pageContext.request.contextPath}/login" method="post">
       <div class="input-group">
