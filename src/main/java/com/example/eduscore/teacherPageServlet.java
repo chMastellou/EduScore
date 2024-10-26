@@ -5,14 +5,12 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
-@WebServlet(name = "studentPage", value = "/Student")
-public class studentPageServlet extends HttpServlet {
+@WebServlet(name = "teacherPageServlet", value = "/Teacher")
+public class teacherPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("doGet request on StudentPageServlet");
-
+        request.getRequestDispatcher("").forward(request, response);
     }
 
     @Override

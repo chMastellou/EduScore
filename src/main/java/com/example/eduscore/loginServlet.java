@@ -6,13 +6,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
-@WebServlet(name = "login", value = "/login")
+@WebServlet(name = "login", urlPatterns={"/login", "/"})
 public class loginServlet extends HttpServlet {
 
     private String message;
 
     public void init() {
         message = "Hello World!";
+
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -23,7 +24,7 @@ public class loginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String pass = request.getParameter("password");
 
-        if (username.equals("student") && pass.equals("s123")) {
+        if (username.equals("chara") && pass.equals("c123")) {
 
             HttpSession session = request.getSession();         // create new session and pass parameters
             session.setAttribute("username", username);
