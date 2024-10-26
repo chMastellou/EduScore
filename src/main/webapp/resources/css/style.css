@@ -25,7 +25,7 @@ body, html {
 /* Login box styling */
 .login-box {
     background-color: white;
-    border: 2px solid #051a57; /* Blue border */
+    border: 2px solid #2c3e50; /* #051a57 */
     padding: 40px;
     width: 320px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -36,7 +36,7 @@ body, html {
 .login-box h2 {
     margin-bottom: 20px;
     text-align: center;
-    color: #051a57; /* Blue title */
+    color: #2c3e50; /* Blue title */
 }
 
 /* Input group styling */
@@ -53,7 +53,7 @@ body, html {
 .input-group input {
     width: 100%;
     padding: 10px;
-    border: 2px solid #051a57;
+    border: 2px solid #2c3e50;
     border-radius: 4px;
     background-color: #f0f8ff; /* Light blue input background */
     color: #333;
@@ -63,7 +63,7 @@ body, html {
 
 /* Focus effect on input fields */
 .input-group input:focus {
-    border-color: #051a57; /* Darker blue on focus */
+    border-color: #2c3e50; /* Darker blue on focus */
     outline: none;
 }
 
@@ -71,7 +71,7 @@ body, html {
 button {
     width: 100%;
     padding: 12px;
-    background-color: #051a57;
+    background-color: #2c3e50;
     border: none;
     color: white;
     font-size: 16px;
@@ -81,7 +81,7 @@ button {
 }
 
 button:hover {
-    background-color: #051a57; /* Darker blue on hover */
+    background-color: #2c3e50; /* Darker blue on hover */
 }
 
 /* Mobile responsiveness */
@@ -122,7 +122,7 @@ body, html {
 /* Login box styling */
 .login-box {
     background-color: white;
-    border: 2px solid #051a57; /* Blue border */
+    border: 2px solid #2c3e50; /* Blue border */
     padding: 40px;
     width: 320px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -133,7 +133,7 @@ body, html {
 .login-box h2 {
     margin-bottom: 20px;
     text-align: center;
-    color: #051a57; /* Blue title */
+    color: #2c3e50; /* Blue title */
 }
 
 /* Input group styling */
@@ -150,7 +150,7 @@ body, html {
 .input-group input {
     width: 100%;
     padding: 10px;
-    border: 2px solid #051a57;
+    border: 2px solid #2c3e50;
     /* border-radius: 4px; */
     background-color: #f0f8ff; /* Light blue input background */
     color: #333;
@@ -168,7 +168,7 @@ body, html {
 button {
     width: 100%;
     padding: 12px;
-    background-color: #051a57;
+    background-color: #2c3e50;
     border: none;
     color: white;
     font-size: 16px;

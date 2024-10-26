@@ -39,7 +39,8 @@ public class loginServlet extends HttpServlet {
             out.println("</body></html>");
 
 
-            request.getRequestDispatcher("StudentPage.jsp").forward(request, response);
+            //request.getRequestDispatcher("StudentPage.jsp").forward(request, response);
+            response.sendRedirect("/Student");
 
  /*
             try {
@@ -57,13 +58,13 @@ public class loginServlet extends HttpServlet {
             }
 
  */
-            session.invalidate(); // γιατί invalidate? θες να κρατήσεις το session εκτός και αν ο χρήστης κάνει logout
+           // session.invalidate(); // γιατί invalidate? θες να κρατήσεις το session εκτός και αν ο χρήστης κάνει logout
         }else if(username.equals("kyrios") && pass.equals("k123")){
             HttpSession session = request.getSession();         // create new session and pass parameters
             session.setAttribute("username", username);
             session.setAttribute("role", "teacher");
 
-            request.getRequestDispatcher("TeacherPage.jsp").forward(request, response);
+            response.sendRedirect("/Teacher");
         }else{
             response.sendRedirect("/");
         }

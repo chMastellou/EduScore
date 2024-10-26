@@ -15,7 +15,9 @@
     <script>
         window.history.pushState({}, '', '/Teacher');
     </script>
-    <link rel="stylesheet" href="resources/css/Menu.css" />
+    <style>
+        <%@ include file="resources/css/Menu.css"%>
+    </style>
 </head>
 <body>
 <%
@@ -40,7 +42,7 @@
             <li><a href="#" onclick="showContent('option1')">Πληροφορίες Καθηγητή</a></li>
             <li><a href="#" onclick="showContent('option2')">Βαθμολογίες</a></li>
             <li><a href="#" onclick="showContent('option3')">Βαθμολόγησε</a></li>
-            <li><a href="${pageContext.request.contextPath}/">Login Page</a></li>
+            <li><a href="${pageContext.request.contextPath}/Logout">Login Page</a></li>
         </ul>
     </nav>
 

@@ -5,15 +5,17 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
-@WebServlet(name = "studentPage", urlPatterns = {"/Student", "/Student*"})
-public class studentPageServlet extends HttpServlet {
+@WebServlet(name = "logoutServlet", value = "/Logout")
+public class logoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("doGet request on StudentPageServlet");
-        HttpSession session = request.getSession(false);
-        request.getRequestDispatcher("StudentPage.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        session.invalidate();
+        response.setHeader("Cache-Control"," no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma"," no-cache");
+        response.setDateHeader("Expires",0);
+        response.sendRedirect("/");
     }
 
     @Override

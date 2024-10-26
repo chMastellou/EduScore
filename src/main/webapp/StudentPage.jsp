@@ -12,13 +12,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Page</title>
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/Images/logo.ico">
-    <script>
-        window.history.pushState({}, '', '/Student');
-    </script>
 
-    <link rel="stylesheet" href="resources/css/Menu.css" />
+    <style>
+        <%@ include file="resources/css/Menu.css"%>
+    </style>
+
 </head>
 <body>
+
 <%
     response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
     response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
@@ -38,16 +39,16 @@
             <li><h4>Μαθητής:</h4><%=session.getAttribute("username")%></li>
             <br>
             <br>
-            <li><a href="#" onclick="showContent('option1')">Πληροφορίες Μαθητή</a></li>
-            <li><a href="#" onclick="showContent('option2')">Βαθμολογίες</a></li>
-            <li><a href="#" onclick="showContent('option3')">Δηλώσεις</a></li>
-            <li><a href="${pageContext.request.contextPath}/">Login Page</a></li>
+            <li><a href="#Profile" onclick="showContent('Profile')">Πληροφορίες Μαθητή</a></li>
+            <li><a href="#Grades" onclick="showContent('Grades')">Βαθμολογίες</a></li>
+            <li><a href="#Courses" onclick="showContent('Courses')">Δηλώσεις</a></li>
+            <li><a href="${pageContext.request.contextPath}/Logout">Logout</a></li>
         </ul>
     </nav>
 
     <!-- Right Content Area -->
     <div class="content">
-        <div id="option1" class="content-section">
+        <div id="Profile" class="content-section">
             <h2>Πληροφορίες Μαθητή</h2> <br>
             <p>Καλώς ήρθες <%=session.getAttribute("username")%>.</p>
             <%@ page import="java.util.*, java.text.SimpleDateFormat" %>
@@ -66,11 +67,11 @@
             %>
             <p>Session Creation Time: <%= formattedDate %></p>
         </div>
-        <div id="option2" class="content-section" style="display: none;">
+        <div id="Grades" class="content-section" style="display: none;">
             <h2>Βαθμολογίες</h2> <br>
             <p>Εδώ χρειάζεται επαφή με την βάση.</p>
         </div>
-        <div id="option3" class="content-section" style="display: none;">
+        <div id="Courses" class="content-section" style="display: none;">
             <h2>Δηλώσεις</h2> <br>
             <p>This is the content displayed when Option 3 is selected.</p>
         </div>

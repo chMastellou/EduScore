@@ -6,11 +6,13 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 
-@WebServlet(name = "teacherPageServlet", value = "/Teacher")
+@WebServlet(name = "teacherPageServlet", urlPatterns = {"/Teacher", "/Teacher*"})
 public class teacherPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("").forward(request, response);
+        System.out.println("doGet request on teacherPageServlet");
+        HttpSession session = request.getSession(false);
+        request.getRequestDispatcher("TeacherPage.jsp").forward(request, response);
     }
 
     @Override
