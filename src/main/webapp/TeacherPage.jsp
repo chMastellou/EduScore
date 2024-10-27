@@ -16,7 +16,7 @@
         window.history.pushState({}, '', '/Teacher');
     </script>
     <style>
-        <%@ include file="resources/css/Menu.css"%>
+        <%@ include file="resources/css/menuStyle.css"%>
     </style>
 </head>
 <body>

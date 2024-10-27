@@ -14,7 +14,7 @@
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/Images/logo.ico">
 
     <style>
-        <%@ include file="resources/css/Menu.css"%>
+        <%@ include file="resources/css/menuStyle.css"%>
     </style>
 
 </head>
@@ -31,26 +31,27 @@
     }
 
 %>
-<div class="container">
+<div class="grid-container">
     <!-- Left Menu -->
-    <nav class="left-menu">
-        <ul>
-            <li><img src="https://i.imgur.com/lDhdDkK.png" alt="Logo" width="100"/></li>
-            <li><h4>Μαθητής:</h4><p><%=session.getAttribute("username")%></p></li>
-            <br>
-            <br>
-            <li><a href="#Profile" onclick="showContent('Profile')">Πληροφορίες Μαθητή</a></li>
-            <li><a href="#Grades" onclick="showContent('Grades')">Βαθμολογίες</a></li>
-            <li><a href="#Courses" onclick="showContent('Courses')">Δηλώσεις</a></li><br>
-            <li><a style="color: #4dc9b4" href="${pageContext.request.contextPath}/Logout">Logout</a></li>
-        </ul>
-    </nav>
+    <div class="left-menu">
+        <img src="https://i.imgur.com/lDhdDkK.png" alt="Logo" width="100"/>
+        <h4>Student:</h4><p><%=session.getAttribute("username")%></p>
+        <br><br>
+        <nav>
+            <ul>
+                <li><a href="#Profile" onclick="showContent('Profile')">Profile</a></li>
+                <li><a href="#Grades" onclick="showContent('Grades')">Grades</a></li>
+                <li><a href="#Courses" onclick="showContent('Courses')">Choose Courses</a></li><br>
+                <li><a style="color: #4dc9b4" href="${pageContext.request.contextPath}/Logout">Logout</a></li>
+            </ul>
+        </nav>
+    </div>
 
     <!-- Right Content Area -->
     <div class="content">
         <div id="Profile" class="content-section">
-            <h2>Πληροφορίες Μαθητή</h2> <br>
-            <p>Καλώς ήρθες <%=session.getAttribute("username")%>.</p>
+            <h2>Student Information</h2> <br>
+            <p>Welcome <%=session.getAttribute("username")%>.</p>
             <%@ page import="java.util.*, java.text.SimpleDateFormat" %>
             <%
                 // Get the session creation time in milliseconds
@@ -64,30 +65,31 @@
 
                 // Format the date into a readable string
                 String formattedDate = dateFormat.format(creationDate);
+                String year = formattedDate.substring(0,4);
             %>
             <p>Session Creation Time: <%= formattedDate %></p>
         </div>
         <div id="Grades" class="content-section" style="display: none;">
-            <h2>Βαθμολογίες</h2> <br>
+            <h2>Grades</h2> <br>
             <p>Εδώ χρειάζεται επαφή με την βάση.</p>
         </div>
         <div id="Courses" class="content-section" style="display: none;">
-            <h2>Δηλώσεις</h2> <br>
+            <h2>Courses for year: <%= year %> </h2> <br>
             <p>This is the content displayed when Option 3 is selected.</p>
         </div>
     </div>
 </div>
 
-<script>
-    function showContent(option) {
-        // Hide all content sections
-        var sections = document.getElementsByClassName('content-section');
-        for (var i = 0; i < sections.length; i++) {
-            sections[i].style.display = 'none';
+    <script>
+        function showContent(option) {
+            // Hide all content sections
+            var sections = document.getElementsByClassName('content-section');
+            for (var i = 0; i < sections.length; i++) {
+                sections[i].style.display = 'none';
+            }
+            // Show the selected content section
+            document.getElementById(option).style.display = 'block';
         }
-        // Show the selected content section
-        document.getElementById(option).style.display = 'block';
-    }
-</script>
+    </script>
 </body>
 </html>

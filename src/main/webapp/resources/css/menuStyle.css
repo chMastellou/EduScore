@@ -5,18 +5,20 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: Ubuntu, sans-serif;
 }
 
-.container {
-    display: flex;
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-areas: "left menu content";
     height: 100vh;
 }
 
 .left-menu {
-    width: 200px;
     background-color: #18222c;
     padding-top: 20px;
+    text-align: center;
 }
 
 .left-menu ul {
@@ -25,7 +27,6 @@ body {
 
 .left-menu ul li {
     padding: 10px;
-    text-align: center;
 }
 
 .left-menu ul li a {
@@ -48,9 +49,9 @@ body {
 }
 
 .content {
-    flex-grow: 1;
     padding: 20px;
     background-color: #ecf0f1;
+    text-align: left;
 }
 
 .content-section {

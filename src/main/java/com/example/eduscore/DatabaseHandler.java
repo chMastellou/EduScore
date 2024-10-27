@@ -3,9 +3,7 @@ package com.example.eduscore;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-
-
-public class postgresqlTest {
+public class DatabaseHandler {
     static final String JDBC_URL = "jdbc:postgresql://localhost:5432/edubase?currentSchema=public&user=edu_admin&password=$Edu5432!";
 
     public static Connection DBconnect() {

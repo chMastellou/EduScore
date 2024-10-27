@@ -7,7 +7,7 @@
   <title>Login</title>
   <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}resources/Images/logo.ico">
   <style>
-    <%@ include file="resources/css/style.css"%>
+    <%@ include file="resources/css/loginStyle.css"%>
   </style>
 </head>
 <body>
