@@ -12,7 +12,7 @@ public class teacherPageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("doGet request on teacherPageServlet");
         HttpSession session = request.getSession(false);
-        request.getRequestDispatcher("TeacherPage.jsp").forward(request, response);
+        request.getRequestDispatcher("Teacher/TeacherPage.jsp").forward(request, response);
     }
 
     @Override
