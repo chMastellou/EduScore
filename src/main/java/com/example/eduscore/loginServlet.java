@@ -42,22 +42,6 @@ public class loginServlet extends HttpServlet {
             //request.getRequestDispatcher("StudentPage.jsp").forward(request, response);
             response.sendRedirect("/Student");
 
- /*
-            try {
-                java.sql.PreparedStatement statement;
-                try (var connection = PostgresqlTest.DBconnect()) {
-                    statement = connection.prepareStatement("select title from subjects where field='Science';");
-                }
-                var resultSet = statement.executeQuery();
-                while(resultSet.next()) {
-                    String subject = resultSet.getString("title");
-                    out.println("<h3>" + subject + "</h3>");
-                }
-            } catch(Exception e) {
-                out.println("problem");
-            }
-
- */
            // session.invalidate(); // γιατί invalidate? θες να κρατήσεις το session εκτός και αν ο χρήστης κάνει logout
         }else if(username.equals("kyrios") && pass.equals("k123")){
             HttpSession session = request.getSession();         // create new session and pass parameters
@@ -72,13 +56,7 @@ public class loginServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/html");
 
-        // Hello
-        PrintWriter out = response.getWriter();
-        out.println("<html><body>");
-        out.println("<h1>" + message + "</h1>");
-        out.println("</body></html>");
     }
 
     public void destroy() {
