@@ -61,6 +61,11 @@ body {
     background-color: #ecf0f1;
     text-align: left;
 }
+.content-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .content-section {
     display: none;

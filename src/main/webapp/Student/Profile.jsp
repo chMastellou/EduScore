@@ -16,14 +16,16 @@
     </style>
 </head>
 <body>
-<div>
+<div class="profile-container">
     <div class="profile-header">
+        <br><br><br><br>
         <img src="https://i.imgur.com/45BIKmP.png" alt="User Profile Picture" class="profile-picture" />
         <h1 class="user-name">John Doe</h1>
         <p class="user-title">Student</p>
     </div>
     <div class="profile-info">
         <h2>About</h2>
+        <br>
         <li>University ID: <b>p20121</b></li>
         <li>Field: <b>Computer Science</b></li>
         <li>Entrance Year: <b>2021</b></li>

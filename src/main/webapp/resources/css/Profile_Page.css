@@ -9,6 +9,7 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
     /*display: flex;*/
+    font-size: 18px;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -17,12 +18,14 @@ body {
 
 /* Profile container styling */
 .profile-container {
-    width: 90%;
-    max-width: 500px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 600px;
+    /*background-color: #fff;*/
+    /*padding: 20px;*/
+    /*border-radius: 8px;*/
+    /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
 }
 
 .profile-header {
@@ -45,7 +48,7 @@ body {
 }
 
 .user-title {
-    font-size: 16px;
+    font-size: 18px;
     color: #666;
 }
 
@@ -60,6 +63,6 @@ body {
 .profile-info p,
 .profile-info ul {
     margin-top: 10px;
-    font-size: 14px;
+    font-size: 17px;
     line-height: 1.6;
 }

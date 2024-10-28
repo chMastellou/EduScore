@@ -12,12 +12,10 @@ public class loginServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
 
-        // Hello
-        PrintWriter out = response.getWriter();
         String username = request.getParameter("username");
         String pass = request.getParameter("password");
 
-        if (username.equals("chara") && pass.equals("c123")) {
+        if (General.validateUser(username, pass) == 1) {
 
             HttpSession session = request.getSession();         // create new session and pass parameters
             session.setAttribute("username", username);
@@ -26,14 +24,15 @@ public class loginServlet extends HttpServlet {
             //request.getRequestDispatcher("StudentPage.jsp").forward(request, response);
             response.sendRedirect("/Student");
 
-           // session.invalidate(); // γιατί invalidate? θες να κρατήσεις το session εκτός και αν ο χρήστης κάνει logout
-        }else if(username.equals("kyrios") && pass.equals("k123")){
+            // session.invalidate(); // γιατί invalidate? θες να κρατήσεις το session εκτός και αν ο χρήστης κάνει logout
+        } else if (General.validateUser(username, pass) == 2){
+
             HttpSession session = request.getSession();         // create new session and pass parameters
             session.setAttribute("username", username);
             session.setAttribute("role", "teacher");
 
             response.sendRedirect("/Teacher");
-        }else{
+        } else if (General.validateUser(username, pass) == -1){
             response.sendRedirect("/");
         }
 

@@ -43,14 +43,14 @@
                 <li><a href="#" onclick="showContent('Student/Grades.jsp')">Grades</a></li>
                 <li><a href="#" onclick="showContent('Student/Courses.jsp')">Choose Courses</a></li>
                 <br><br><br><br>
-                <li><a style="color: #4dc9b4" href="${pageContext.request.contextPath}/Logout">Logout</a></li>
+                <li><a style="color: #4dc9b4;position: absolute;bottom: 15px;left: 0; width: 20%;text-align: center;" href="${pageContext.request.contextPath}/Logout">Logout</a></li>
             </ul>
         </nav>
     </div>
 
     <!-- The div where the content will be loaded -->
     <div class="content">
-    <div id="content-area"></div>
+    <div id="content-area" class="content-area"></div>
     </div>
 
 </div>

@@ -6,7 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
-@WebServlet(name = "login", urlPatterns={"/login", "/"})
+@WebServlet(name = "register", urlPatterns={"/register"})
 public class registerServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -14,25 +14,14 @@ public class registerServlet extends HttpServlet {
 
         String username = request.getParameter("username");
         String pass = request.getParameter("password");
+        String userTypeChoice = request.getParameter("dropdown");
+        int userType = 1;
 
-        if (username.equals("chara") && pass.equals("c123")) {
+        if (userTypeChoice.equals("Professor")) {
+            userType = 2;
+        }
 
-            HttpSession session = request.getSession();         // create new session and pass parameters
-            session.setAttribute("username", username);
-            session.setAttribute("role", "student");
-
-
-            //request.getRequestDispatcher("StudentPage.jsp").forward(request, response);
-            response.sendRedirect("/Student");
-
-            // session.invalidate(); // γιατί invalidate? θες να κρατήσεις το session εκτός και αν ο χρήστης κάνει logout
-        } else if (username.equals("kyrios") && pass.equals("k123")) {
-            HttpSession session = request.getSession();         // create new session and pass parameters
-            session.setAttribute("username", username);
-            session.setAttribute("role", "teacher");
-
-            response.sendRedirect("/Teacher");
-        } else {
+        if (General.registerUser(username, pass, userType)){
             response.sendRedirect("/");
         }
 

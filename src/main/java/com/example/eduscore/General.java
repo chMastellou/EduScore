@@ -10,10 +10,6 @@ import java.sql.SQLException;
 // Handles User Authentication and password hashing
 public class General {
 
-    public static String getHash(String password) {
-        return BCrypt.hashpw(password, BCrypt.gensalt(12));
-    }
-
     public static int validateUser(String username, String password) {
         //  2 for successfully validated teacher
         //  1 for successfully validated student
@@ -21,25 +17,51 @@ public class General {
         //  -1 no validation
         try (Connection connection = Database.getConnection()) {
             String query = "SELECT pass,user_type FROM users WHERE id = ?;";
+
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, username);
-            ResultSet result = preparedStatement.executeQuery();
-            if (result.next()) {
-                String storedHash = result.getString("pass");
-                if (BCrypt.checkpw(password, storedHash)) {
-                    result.next();
-                    int userType = result.getInt("user_type");
-                    if (userType == 1) {
-                        return 1;
-                    } else if (userType == 2) {
-                        return 2;
+            try (ResultSet result = preparedStatement.executeQuery();) {
+                if (result.next()) {
+                    String storedHash = result.getString("pass");
+                    if (BCrypt.checkpw(password, storedHash)) {
+                        int userType = result.getInt("user_type");
+                        if (userType == 1) {
+                            return 1;
+                        } else if (userType == 2) {
+                            return 2;
+                        }
                     }
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return -1;
+    }
+
+    public static boolean registerUser(String username, String password, int userType) {
+
+        try (Connection connection = Database.getConnection()) {
+            String query = "INSERT INTO users VALUES (?,?,?,null);";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2,
+                    BCrypt.hashpw(password, BCrypt.gensalt(12)));
+            if (userType == 1) {
+                preparedStatement.setInt(3, 1);
+            } else if (userType == 2) {
+                preparedStatement.setInt(3, 2);
+            }
+            if (preparedStatement.executeUpdate() == 1) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }
