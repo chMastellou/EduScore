@@ -1,0 +1,65 @@
+/* Reset some default styles */
+/** {*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    box-sizing: border-box;*/
+/*}*/
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    /*display: flex;*/
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
+}
+
+/* Profile container styling */
+.profile-container {
+    width: 90%;
+    max-width: 500px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #2c3e50;
+    margin-bottom: 10px;
+}
+
+.user-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.user-title {
+    font-size: 16px;
+    color: #666;
+}
+
+.profile-info h2 {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #2c3e50;
+    border-bottom: 2px solid #2c3e50;
+    padding-bottom: 5px;
+}
+
+.profile-info p,
+.profile-info ul {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+}
