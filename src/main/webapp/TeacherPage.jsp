@@ -19,7 +19,8 @@
         <%@ include file="resources/css/menuStyle.css"%>
     </style>
 </head>
-<body>
+<body onload="showContent('Profile')">
+
 <%
     response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
     response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
@@ -31,26 +32,28 @@
     }
 
 %>
-<div class="container">
+<div class="grid-container">
     <!-- Left Menu -->
-    <nav class="left-menu">
-        <ul>
-            <li><img src="https://i.imgur.com/lDhdDkK.png" alt="Italian Trulli" width="100" /></li>
-            <li><h4>Καθηγητής:</h4><p><%=session.getAttribute("username")%></p></li>
-            <br>
-            <br>
-            <li><a href="#" onclick="showContent('option1')">Πληροφορίες Καθηγητή</a></li>
-            <li><a href="#" onclick="showContent('option2')">Βαθμολογίες</a></li>
-            <li><a href="#" onclick="showContent('option3')">Βαθμολόγησε</a></li><br>
-            <li><a style="color: #4dc9b4" href="${pageContext.request.contextPath}/Logout">Logout</a></li>
-        </ul>
-    </nav>
+    <div class="left-menu">
+        <img src="https://i.imgur.com/lDhdDkK.png" alt="Logo" width="100"/>
+        <p><b class="left-menu">Teacher: &nbsp; <%=session.getAttribute("username")%></b></p>
+        <br><br><br><br><br><br>
+        <nav>
+            <ul>
+                <li><a href="#Profile" onclick="showContent('Profile')">Profile</a></li>
+                <li><a href="#Grades" onclick="showContent('Grades')">Grades</a></li>
+                <li><a href="#AddGrades" onclick="showContent('AddGrades')">Add new Grades</a></li>
+                <br><br><br><br>
+                <li><a style="color: #4dc9b4" href="${pageContext.request.contextPath}/Logout">Logout</a></li>
+            </ul>
+        </nav>
+    </div>
 
     <!-- Right Content Area -->
     <div class="content">
-        <div id="option1" class="content-section">
-            <h2>Πληροφορίες Καθηγητή</h2> <br>
-            <p>Καλώς ήρθες <%=session.getAttribute("username")%>.</p>
+        <div id="Profile" class="content-section">
+            <h2>Teacher Information</h2> <br>
+            <p>Welcome <%=session.getAttribute("username")%>.</p>
             <%@ page import="java.util.*, java.text.SimpleDateFormat" %>
             <%
                 // Get the session creation time in milliseconds
@@ -68,12 +71,12 @@
             %>
             <p>Session Creation Time: <%= formattedDate %></p>
         </div>
-        <div id="option2" class="content-section" style="display: none;">
-            <h2>Βαθμολογίες</h2> <br>
+        <div id="Grades" class="content-section" style="display: none;">
+            <h2>Grades</h2> <br>
             <p>Εδώ χρειάζεται επαφή με την βάση.</p>
         </div>
-        <div id="option3" class="content-section" style="display: none;">
-            <h2>Βαθμολογήστε για την εξεταστική περίοδο <%=year%>.</h2><br>
+        <div id="AddGrades" class="content-section" style="display: none;">
+            <h2>Add Grades for year: <%= year %> </h2> <br>
             <p>This is the content displayed when Option 3 is selected.</p>
         </div>
     </div>

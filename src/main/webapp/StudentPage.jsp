@@ -18,7 +18,7 @@
     </style>
 
 </head>
-<body>
+<body onload="showContent('Profile')">
 
 <%
     response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
@@ -35,13 +35,14 @@
     <!-- Left Menu -->
     <div class="left-menu">
         <img src="https://i.imgur.com/lDhdDkK.png" alt="Logo" width="100"/>
-        <h4>Student:</h4><p><%=session.getAttribute("username")%></p>
-        <br><br>
+        <p><b class="left-menu">Student: &nbsp; <%=session.getAttribute("username")%></b></p>
+        <br><br><br><br><br><br>
         <nav>
             <ul>
                 <li><a href="#Profile" onclick="showContent('Profile')">Profile</a></li>
                 <li><a href="#Grades" onclick="showContent('Grades')">Grades</a></li>
-                <li><a href="#Courses" onclick="showContent('Courses')">Choose Courses</a></li><br>
+                <li><a href="#Courses" onclick="showContent('Courses')">Choose Courses</a></li>
+                <br><br><br><br>
                 <li><a style="color: #4dc9b4" href="${pageContext.request.contextPath}/Logout">Logout</a></li>
             </ul>
         </nav>

@@ -44,6 +44,14 @@ body {
     text-decoration: none;
     display: block;
 }
+.item-a {
+    align-self: end;
+}
+.left-menu b {
+    color: #ecf0f1;
+    text-decoration: none;
+    display: block;
+}
 .left-menu ul li a:hover {
     background-color: #3a506a;
 }
