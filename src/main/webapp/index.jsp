@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <title>EduScore</title>
   <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}resources/Images/logo.ico">
   <style>
     <%@ include file="resources/css/loginStyle.css"%>
@@ -13,7 +13,7 @@
 <body>
 <div class="login-container">
   <div class="login-box">
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img src="https://i.imgur.com/kDAooXp.png" alt="Logo" width="100"/>
+    <img src="https://i.imgur.com/kDAooXp.png" alt="Logo" width="100"/>
     <h2>Login</h2>
     <form action="${pageContext.request.contextPath}/login" method="post">
       <div class="input-group">
@@ -26,6 +26,8 @@
       </div>
       <button type="submit">Login</button>
     </form>
+    <br>
+    <button class="registerBtn" onclick="window.location='/Register.jsp';"> Register </button>
   </div>
 </div>
 </body>
