@@ -6,10 +6,10 @@
 /*}*/
 
 body {
-    font-family: Arial, sans-serif;
+    /*font-family: Arial, sans-serif;*/
     background-color: #f4f4f9;
     /*display: flex;*/
-    font-size: 18px;
+    /*font-size: 18px;*/
     justify-content: center;
     align-items: center;
     height: 100vh;
