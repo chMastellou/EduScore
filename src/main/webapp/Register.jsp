@@ -34,8 +34,8 @@
             <div class="input-group">
                 <label for="dropdown">I am a:</label>
                 <select id="dropdown" name="dropdown" required>
-                    <option value="option1">Student</option>
-                    <option value="option2">Professor</option>
+                    <option value="Student">Student</option>
+                    <option value="Professor">Professor</option>
                 </select>
             </div>
             <button type="submit">Register</button>

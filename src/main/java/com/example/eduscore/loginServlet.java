@@ -21,6 +21,14 @@ public class loginServlet extends HttpServlet {
             session.setAttribute("username", username);
             session.setAttribute("role", "student");
 
+            // get session creation time and update last_login-----------
+            long last_login = session.getCreationTime();
+//            if(!General.update_last_login("username", last_login)){
+//                System.out.println("Couldn't update last login");
+////                response.sendRedirect("/");
+//            }
+            System.out.println(last_login);
+            // -----------------------------------------------------------
             //request.getRequestDispatcher("StudentPage.jsp").forward(request, response);
             response.sendRedirect("/Student");
 
@@ -30,6 +38,12 @@ public class loginServlet extends HttpServlet {
             HttpSession session = request.getSession();         // create new session and pass parameters
             session.setAttribute("username", username);
             session.setAttribute("role", "teacher");
+            // get session creation time and update last_login-----------
+            long last_login = session.getCreationTime();
+//            if(General.update_last_login("username", last_login)){
+//                System.out.println("Couldn't update last login");
+//                response.sendRedirect("/");
+//            }
 
             response.sendRedirect("/Teacher");
         } else if (General.validateUser(username, pass) == -1){
