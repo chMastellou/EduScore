@@ -21,6 +21,8 @@ public class General {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, username);
             try (ResultSet result = preparedStatement.executeQuery();) {
+
+                connection.close();
                 if (result.next()) {
                     String storedHash = result.getString("pass");
                     if (BCrypt.checkpw(password, storedHash)) {
@@ -34,6 +36,7 @@ public class General {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
+                connection.close();
             }
 
         } catch (SQLException e) {
@@ -42,25 +45,29 @@ public class General {
 
         return -1;
     }
-    public static boolean update_last_login(String username , long unixTime) {
+
+    public static boolean updateLastLogin(String username , long unixTime) {
         try (Connection connection = Database.getConnection()){
             // Add login timestamp
             String query = "UPDATE users SET last_login = to_timestamp(? / 1000.0) WHERE id = ?;";
-            if (connection == null) {
-                throw new SQLException("Failed to establish a database connection.");
-            }
+//            if (connection == null) {
+//                throw new SQLException("Failed to establish a database connection.");
+//            }
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            System.out.println("PreparedStatement: " + preparedStatement);
+
             preparedStatement.setLong(1, unixTime);
             preparedStatement.setString(2, username);
-            System.out.println("PreparedStatement2: " + preparedStatement);
+
             if (preparedStatement.executeUpdate() == 1) {
-                System.out.println("Successfully updated the last login.");
+                connection.close();
                 return true;
+            } else {
+                connection.close();
             }
-        }catch (SQLException e){
+        } catch (SQLException e){
             e.printStackTrace();
         }
+
         return false;
     }
 
@@ -71,15 +78,17 @@ public class General {
             assert connection != null; // το έβαλε μόνο του για να αντιμετωπίσει το warning
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, username);
-            preparedStatement.setString(2,
-                    BCrypt.hashpw(password, BCrypt.gensalt(12)));
+            preparedStatement.setString(2, BCrypt.hashpw(password, BCrypt.gensalt(12)));
             if (userType == 1) {
                 preparedStatement.setInt(3, 1);
             } else if (userType == 2) {
                 preparedStatement.setInt(3, 2);
             }
             if (preparedStatement.executeUpdate() == 1) {
+                connection.close();
                 return true;
+            } else {
+                connection.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();

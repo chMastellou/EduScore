@@ -23,16 +23,9 @@ public class loginServlet extends HttpServlet {
 
             // get session creation time and update last_login-----------
             long last_login = session.getCreationTime();
-//            if(!General.update_last_login("username", last_login)){
-//                System.out.println("Couldn't update last login");
-////                response.sendRedirect("/");
-//            }
-            System.out.println(last_login);
-            // -----------------------------------------------------------
-            //request.getRequestDispatcher("StudentPage.jsp").forward(request, response);
+
             response.sendRedirect("/Student");
 
-            // session.invalidate(); // γιατί invalidate? θες να κρατήσεις το session εκτός και αν ο χρήστης κάνει logout
         } else if (General.validateUser(username, pass) == 2){
 
             HttpSession session = request.getSession();         // create new session and pass parameters

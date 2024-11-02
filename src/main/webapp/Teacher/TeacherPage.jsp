@@ -34,21 +34,23 @@
 %>
 <div class="grid-container">
     <!-- Left Menu -->
+
     <div class="left-menu">
         <img src="https://i.imgur.com/lDhdDkK.png" alt="Logo" width="100"/>
-        <p><b class="left-menu">Teacher: &nbsp; <%=session.getAttribute("username")%></b></p>
-        <br><br><br><br><br><br>
+        <p><b class="left-menu"><%=session.getAttribute("username")%></b></p>
+        <p class="role_tag">PROFESSOR</p>
+        <br><br><br><br><br>
         <nav>
             <ul>
                 <li><a href="#" onclick="showContent('Teacher/Profile.jsp')">Profile</a></li>
                 <li><a href="#" onclick="showContent('Teacher/Grades.jsp')">Grades</a></li>
                 <li><a href="#" onclick="showContent('Teacher/AddGrades.jsp')">Add Grades</a></li>
                 <br><br><br><br>
-                <li><a style="color: #4dc9b4" href="${pageContext.request.contextPath}/Logout">Logout</a></li>
             </ul>
         </nav>
-    </div>
 
+        <a class="logout">Logout</a>
+    </div>
     <!-- The div where the content will be loaded -->
     <div class="content">
         <div id="content-area"></div>
