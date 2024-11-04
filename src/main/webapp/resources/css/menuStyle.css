@@ -34,9 +34,10 @@ body {
 .left-menu ul li a {
     text-decoration: none;
     display: block;
+    color: aliceblue;
 }
 .left-menu ul li h4 {
-    color: rgb(182, 204, 212);
+    color: aliceblue;
     text-decoration: none;
     display: block;
 }

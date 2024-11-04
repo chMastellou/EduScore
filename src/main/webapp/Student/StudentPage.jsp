@@ -48,7 +48,7 @@
             </ul>
         </nav>
 
-        <a class="logout">Logout</a>
+        <a href="${pageContext.request.contextPath}/Logout" class="logout">Logout</a>
     </div>
 
     <!-- The div where the content will be loaded -->
