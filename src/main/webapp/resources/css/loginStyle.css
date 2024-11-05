@@ -31,7 +31,12 @@ body, html {
     box-shadow: 0 20px 20px 20px rgba(0, 0, 0, 0.1);
     border-radius: 6px;
 }
-
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
 /* Title styling */
 .login-box h2 {
     margin-bottom: 20px;

@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 // Handles User Authentication and password hashing
 public class General {
@@ -50,9 +52,9 @@ public class General {
         try (Connection connection = Database.getConnection()){
             // Add login timestamp
             String query = "UPDATE users SET last_login = to_timestamp(? / 1000.0) WHERE id = ?;";
-//            if (connection == null) {
-//                throw new SQLException("Failed to establish a database connection.");
-//            }
+            if (connection == null) {
+                throw new SQLException("Failed to establish a database connection.");
+            }
             PreparedStatement preparedStatement = connection.prepareStatement(query);
 
             preparedStatement.setLong(1, unixTime);
@@ -95,5 +97,33 @@ public class General {
         }
 
         return false;
+    }
+    public static List<List<String>> getGrades(String course, int year) {
+        // returns student <student_id, grade> for that course and year
+        List<List<String>> grades = new ArrayList<>();
+
+        try (Connection connection = Database.getConnection()) {
+            String query = "SELECT student_id,grade FROM grades WHERE course_title = ? and year = ?;";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, course);
+            preparedStatement.setInt(2, year);
+
+            try (ResultSet result = preparedStatement.executeQuery();) {
+                System.out.println(result);
+                // τι μορφής είναι το result
+                // πρέπει περαστεί στη λίστα grades
+
+                return grades;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                connection.close();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

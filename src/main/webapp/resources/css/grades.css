@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset basic styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+/* Center container */
+.container {
+    text-align: center;
+    /*max-width: 600px;*/
+    max-width: 90vh;
+    width: 100%;
+    padding: 20px;
+    background-color: rgba(221, 221, 221, 0);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Title styling */
+.container h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+/* Fixed-size table container */
+.table-container {
+    width: 100%;
+    /*max-height: 400px; !* Fixed height for the table container *!*/
+    max-height: 80vh;
+    overflow: auto; /* Adds scrollbar if content overflows */
+    border: 2px solid black;
+    border-radius: 4px;
+}
+
+/* Table styling */
+.grades-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.grades-table thead th {
+    background-color: #1b6360;
+    color: white;
+    font-weight: bold;
+    padding: 12px;
+    text-align: left;
+    border: 1px solid black;
+}
+
+.grades-table tbody td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid black;
+}
+
+/* Row hover effect */
+.grades-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .grades-table thead th,
+    .grades-table tbody td {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
+

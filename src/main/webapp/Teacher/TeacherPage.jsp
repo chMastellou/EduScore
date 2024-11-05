@@ -53,7 +53,7 @@
     </div>
     <!-- The div where the content will be loaded -->
     <div class="content">
-        <div id="content-area"></div>
+        <div id="content-area" class="content-area"></div>
     </div>
 
 </div>

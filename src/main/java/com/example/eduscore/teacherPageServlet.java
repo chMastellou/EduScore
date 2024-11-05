@@ -12,6 +12,9 @@ public class teacherPageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("doGet request on teacherPageServlet");
         HttpSession session = request.getSession(false);
+
+        // Να καλέσω το getGrades
+
         request.getRequestDispatcher("Teacher/TeacherPage.jsp").forward(request, response);
     }
 
