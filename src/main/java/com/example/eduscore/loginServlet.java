@@ -24,7 +24,13 @@ public class loginServlet extends HttpServlet {
             // get session creation time and update last_login-----------
             long last_login = session.getCreationTime();
 
-            response.sendRedirect("/Student");
+            if (General.updateLastLogin(username, last_login)) {
+                response.sendRedirect("/Student");
+            } else { // δεν δούλεψε
+                System.out.println("Couldn't update last login");
+                session.invalidate();
+                response.sendRedirect("/");
+            }
 
         } else if (General.validateUser(username, pass) == 2){
 
@@ -33,10 +39,10 @@ public class loginServlet extends HttpServlet {
             session.setAttribute("role", "teacher");
             // get session creation time and update last_login-----------
             long last_login = session.getCreationTime();
-            if(General.updateLastLogin(username, last_login)){
+
+            if (General.updateLastLogin(username, last_login)) {
                response.sendRedirect("/Teacher");
-            }else{ // δεν δούλεψε
-                System.out.println("last login is : " + last_login);
+            } else { // δεν δούλεψε
                 System.out.println("Couldn't update last login");
                 session.invalidate();
                 response.sendRedirect("/");

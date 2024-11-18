@@ -1,6 +1,7 @@
 package com.example.eduscore;
 
 import java.io.*;
+import java.sql.SQLException;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
@@ -23,6 +24,8 @@ public class registerServlet extends HttpServlet {
 
         if (General.registerUser(username, pass, userType)){
             response.sendRedirect("/");
+        } else {
+            response.sendRedirect("/Register.jsp");
         }
 
     }

@@ -86,18 +86,32 @@ public class General {
             } else if (userType == 2) {
                 preparedStatement.setInt(3, 2);
             }
-            if (preparedStatement.executeUpdate() == 1) {
-                connection.close();
-                return true;
-            } else {
+
+            try {
+                int upd = preparedStatement.executeUpdate();
+                if (upd == 1) {
+                    connection.close();
+                    return true;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
                 connection.close();
             }
+
+//            if (preparedStatement.executeUpdate() == 1) {
+//                connection.close();
+//                return true;
+//            } else {
+//                connection.close();
+//            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return false;
     }
+
     public static List<List<String>> getGrades(String course, int year) {
         // returns student <student_id, grade> for that course and year
         List<List<String>> grades = new ArrayList<>();
