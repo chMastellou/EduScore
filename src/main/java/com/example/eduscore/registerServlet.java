@@ -1,7 +1,6 @@
 package com.example.eduscore;
 
 import java.io.*;
-import java.sql.SQLException;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;

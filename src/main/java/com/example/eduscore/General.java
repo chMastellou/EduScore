@@ -22,7 +22,7 @@ public class General {
 
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, username);
-            try (ResultSet result = preparedStatement.executeQuery();) {
+            try (ResultSet result = preparedStatement.executeQuery()) {
 
                 connection.close();
                 if (result.next()) {
@@ -98,18 +98,44 @@ public class General {
                 connection.close();
             }
 
-//            if (preparedStatement.executeUpdate() == 1) {
-//                connection.close();
-//                return true;
-//            } else {
-//                connection.close();
-//            }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return false;
+    }
+
+    public static  List<List<String>> getCourses(String username, int year) {
+        List<List<String>> courses = new ArrayList<>();
+
+        try (Connection connection = Database.getConnection()) {
+            String query = "SELECT courses.title, courses.ects FROM courses WHERE courses.year <= ? AND courses.title NOT IN (SELECT grades.course_title FROM grades WHERE grades.student_id = ? AND grades.passed = true);";
+
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setInt(1, year);
+                preparedStatement.setString(2, username);
+
+                try (ResultSet result = preparedStatement.executeQuery()) {
+                    while (result.next()) {
+                        //add the stuff
+                    }
+
+                    connection.close();
+                    return courses;
+                } catch (SQLException e) {
+                    connection.close();
+                    e.printStackTrace();
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public static List<List<String>> getGrades(String course, int year) {
@@ -123,7 +149,7 @@ public class General {
             preparedStatement.setString(1, course);
             preparedStatement.setInt(2, year);
 
-            try (ResultSet result = preparedStatement.executeQuery();) {
+            try (ResultSet result = preparedStatement.executeQuery()) {
                 System.out.println(result);
                 // τι μορφής είναι το result
                 // πρέπει περαστεί στη λίστα grades
