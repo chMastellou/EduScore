@@ -105,8 +105,8 @@ public class General {
         return false;
     }
 
-    public static  List<List<String>> getCourses(String username, int year) {
-        List<List<String>> courses = new ArrayList<>();
+    public static  List<List<Object>> getCourses(String username, int year) {
+        List<List<Object>> courses = new ArrayList<>();
 
         try (Connection connection = Database.getConnection()) {
             String query = "SELECT courses.title, courses.ects FROM courses WHERE courses.year <= ? AND courses.title NOT IN (SELECT grades.course_title FROM grades WHERE grades.student_id = ? AND grades.passed = true);";
@@ -118,11 +118,15 @@ public class General {
 
                 try (ResultSet result = preparedStatement.executeQuery()) {
                     while (result.next()) {
-                        //add the stuff
+                        List<Object> course = new ArrayList<>();
+                        course.add(result.getString(1));
+                        course.add(result.getInt(2));
+                        courses.add(course);
                     }
 
                     connection.close();
                     return courses;
+
                 } catch (SQLException e) {
                     connection.close();
                     e.printStackTrace();
@@ -136,6 +140,37 @@ public class General {
         }
 
         return null;
+    }
+
+    public static int getYear(String username) {
+        try (Connection connection = Database.getConnection()) {
+            String query = "SELECT entrance_year FROM students WHERE id = ?;";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, username);
+
+                try (ResultSet result = preparedStatement.executeQuery()) {
+
+                    if (result.next()) {
+                        int entrance_year = result.getInt("entrance_year");
+                        connection.close();
+                        return 2024 - entrance_year + 1;
+                    } else {
+                        connection.close();
+                    }
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public static List<List<String>> getGrades(String course, int year) {
