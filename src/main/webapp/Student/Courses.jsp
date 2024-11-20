@@ -25,7 +25,7 @@
 %>
 
 <div class="form-container">
-    <form id="courseForm" onsubmit="return submitForm()">
+    <form id="courseForm" action="${pageContext.request.contextPath}/course_register">
         <table>
             <thead class="table-header">
                 <tr>
@@ -41,54 +41,28 @@
                 List<List<Object>> courses = General.getCourses(session.getAttribute("username").toString(),student_year);
 
                 if (courses != null) {
-                    int i=1;
                     for (List<Object> course : courses) {
                         out.print("<tr><td>" + course.getFirst() + "</td>");
                         out.print("<td>" + course.getLast() + "</td>");
-                        out.print("<td> <input type=\"checkbox\" name=\"course"+i+"\" value=\""+course.getFirst()+"\"/> </td></tr>");
+                        out.print("<td> <input type=\"checkbox\" name=\"course\" value=\""+course.getFirst()+"\"/> </td></tr>");
                     }
                 }
             %>
-                <tr>
-                    <td>Mathematics</td>
-                    <td>5</td>
-                    <td><input type="checkbox" name="course" value="Mathematics" /></td>
-                </tr>
-                <tr>
-                    <td>Physics</td>
-                    <td>5</td>
-                    <td><input type="checkbox" name="course" value="Physics" /></td>
-                </tr>
-                <tr>
-                    <td>Chemistry</td>
-                    <td>5</td>
-                    <td><input type="checkbox" name="course" value="Chemistry" /></td>
-                </tr>
-                <tr>
-                    <td>Biology</td>
-                    <td>5</td>
-                    <td><input type="checkbox" name="course" value="Biology" /></td>
-                </tr>
-                <tr>
-                    <td>Computer Science</td>
-                    <td>5</td>
-                    <td><input type="checkbox" name="course" value="Computer Science" /></td>
-                </tr>
             </tbody>
         </table>
         <button type="submit" class="submit-btn">Apply for Courses</button>
     </form>
 </div>
 
-<script>
-    function submitForm() {
-        const selectedCourses = Array.from(document.querySelectorAll('input[name="course"]:checked'))
-            .map(checkbox => checkbox.value);
-
-        alert("You have applied for: " + selectedCourses.join(", "));
-        return false; // Prevent form submission for demo purposes
-    }
-</script>
+<%--<script>--%>
+<%--    function applySelectedCourses() {--%>
+<%--        const selectedCourses = Array.from(document.querySelectorAll('input[name="course"]:checked'))--%>
+<%--            .map(checkbox => checkbox.value);--%>
+<%--        const hiddenField = document.getElementById("selectedCourses");--%>
+<%--        hiddenField.value = selectedCourses.join(",");--%>
+<%--        alert(selectedCourses.join(","));--%>
+<%--    }--%>
+<%--</script>--%>
 </body>
 </html>
 
