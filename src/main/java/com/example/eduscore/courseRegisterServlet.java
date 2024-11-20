@@ -15,7 +15,7 @@ public class courseRegisterServlet extends HttpServlet {
         response.setContentType("text/html");
 
         String[] selectedCourses = request.getParameterValues("course");
-        response.sendRedirect(request.getContextPath() + "/TestCourseSuccess.jsp");
+        response.sendRedirect(request.getContextPath() + "/Student");
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

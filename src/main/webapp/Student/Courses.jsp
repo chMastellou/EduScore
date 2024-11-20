@@ -24,8 +24,9 @@
 
 %>
 
+
 <div class="form-container">
-    <form id="courseForm" action="${pageContext.request.contextPath}/course_register">
+    <form id="courseForm" method="post">
         <table>
             <thead class="table-header">
                 <tr>
@@ -52,17 +53,18 @@
         </table>
         <button type="submit" class="submit-btn">Apply for Courses</button>
     </form>
-</div>
 
-<%--<script>--%>
-<%--    function applySelectedCourses() {--%>
-<%--        const selectedCourses = Array.from(document.querySelectorAll('input[name="course"]:checked'))--%>
-<%--            .map(checkbox => checkbox.value);--%>
-<%--        const hiddenField = document.getElementById("selectedCourses");--%>
-<%--        hiddenField.value = selectedCourses.join(",");--%>
-<%--        alert(selectedCourses.join(","));--%>
-<%--    }--%>
-<%--</script>--%>
+    <script>
+        document.getElementById("courseForm").onsubmit = applySelectedCourses;
+
+        function applySelectedCourses() {
+            const selectedCourses = Array.from(document.querySelectorAll('input[name="course"]:checked'))
+                .map(checkbox => checkbox.value);
+            alert(selectedCourses.join(","));
+        }
+    </script>
+
+</div>
 </body>
 </html>
 
