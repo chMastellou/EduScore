@@ -26,7 +26,7 @@
 
 
 <div class="form-container">
-    <form id="courseForm" method="post" action="${pageContext.request.contextPath}/course_register">
+    <form id="courseForm" method="post" action="${pageContext.request.contextPath}/course_submit">
         <table>
             <thead class="table-header">
                 <tr>
@@ -38,7 +38,7 @@
             <tbody>
 
             <%
-                int student_year = General.getYear(session.getAttribute("username").toString());
+                int student_year = General.getStudentYear(session.getAttribute("username").toString());
                 List<List<Object>> courses = General.getCourses(session.getAttribute("username").toString(),student_year);
 
                 if (courses != null) {
@@ -53,17 +53,8 @@
         </table>
         <button type="submit" class="submit-btn" id="submitBtn">Apply for Courses</button>
     </form>
-
-    <script>
-        document.getElementById('courseForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const selectedCourses = Array.from(document.querySelectorAll('input[name="course"]:checked'))
-                .map(checkbox => checkbox.value);
-            alert("Selected courses: " + selectedCourses.join(","));
-        });
-    </script>
-
 </div>
+
 </body>
 </html>
 

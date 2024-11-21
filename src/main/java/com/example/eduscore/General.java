@@ -6,8 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 // Handles User Authentication and password hashing
 public class General {
@@ -20,6 +19,7 @@ public class General {
         try (Connection connection = Database.getConnection()) {
             String query = "SELECT pass,user_type FROM users WHERE id = ?;";
 
+            assert connection != null;
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, username);
             try (ResultSet result = preparedStatement.executeQuery()) {
@@ -112,6 +112,7 @@ public class General {
             String query = "SELECT courses.title, courses.ects FROM courses WHERE courses.year <= ? AND courses.title NOT IN (SELECT grades.course_title FROM grades WHERE grades.student_id = ? AND grades.passed = true);";
 
             try {
+                assert connection != null;
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setInt(1, year);
                 preparedStatement.setString(2, username);
@@ -142,27 +143,30 @@ public class General {
         return null;
     }
 
-    public static int getYear(String username) {
+    public static int getStudentYear(String username) {
         try (Connection connection = Database.getConnection()) {
             String query = "SELECT entrance_year FROM students WHERE id = ?;";
 
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setString(1, username);
+            try {
+                assert connection != null;
+                try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                    preparedStatement.setString(1, username);
 
-                try (ResultSet result = preparedStatement.executeQuery()) {
+                    try (ResultSet result = preparedStatement.executeQuery()) {
 
-                    if (result.next()) {
-                        int entrance_year = result.getInt("entrance_year");
-                        connection.close();
-                        return 2024 - entrance_year + 1;
-                    } else {
-                        connection.close();
+                        if (result.next()) {
+                            int entrance_year = result.getInt("entrance_year");
+                            connection.close();
+                            return 2024 - entrance_year + 1;
+                        } else {
+                            connection.close();
+                        }
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
                     }
 
-                } catch (SQLException e) {
-                    e.printStackTrace();
                 }
-
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
@@ -173,6 +177,64 @@ public class General {
         return 0;
     }
 
+    public static boolean checkCourseSubmission(String username) {
+        try (Connection connection = Database.getConnection()) {
+            String query = "SELECT * FROM submissions WHERE student_id = ? AND year = ?;";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, username);
+                preparedStatement.setInt(2, 2024);
+                try {
+                    ResultSet result = preparedStatement.executeQuery();
+                    if (result.next()) {
+                        connection.close();
+                        return true;
+                    } else {
+                        connection.close();
+                        return false;
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public static boolean submitCourses(List<String> courses, String username) {
+        try (Connection connection = Database.getConnection()) {
+            String query = "INSERT INTO submissions VALUES (?,?,2024);";
+
+            assert connection != null;
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+                for (String course : courses) {
+                    preparedStatement.setString(1, username);
+                    preparedStatement.setString(2, course);
+                    preparedStatement.addBatch();
+                }
+                int[] updateCounts = preparedStatement.executeBatch();
+                try {
+                    int batchUpdate = Arrays.stream(updateCounts).min().getAsInt();
+                    if (batchUpdate >= 1) {
+                        //proceed with adding empty grades
+                    } else {
+                        //fail
+                        return false;
+                    }
+                } catch (NoSuchElementException e) {
+                    e.printStackTrace();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public static List<List<String>> getGrades(String course, int year) {
         // returns student <student_id, grade> for that course and year
         List<List<String>> grades = new ArrayList<>();
@@ -180,6 +242,7 @@ public class General {
         try (Connection connection = Database.getConnection()) {
             String query = "SELECT student_id,grade FROM grades WHERE course_title = ? and year = ?;";
 
+            assert connection != null;
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, course);
             preparedStatement.setInt(2, year);
