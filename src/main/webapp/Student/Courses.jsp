@@ -23,7 +23,11 @@
     }
 
 %>
-
+<%
+    if (General.checkCourseSubmission(session.getAttribute("username").toString())) {
+        response.sendRedirect("/Student",false);
+    }
+%>
 
 <div class="form-container">
     <form id="courseForm" method="post" action="${pageContext.request.contextPath}/course_submit">

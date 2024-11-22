@@ -179,7 +179,8 @@ public class General {
 
     public static boolean checkCourseSubmission(String username) {
         try (Connection connection = Database.getConnection()) {
-            String query = "SELECT * FROM submissions WHERE student_id = ? AND year = ?;";
+            String query = "SELECT 1 FROM submissions WHERE student_id = ? AND year = ?;";
+            assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setString(1, username);
                 preparedStatement.setInt(2, 2024);
@@ -219,9 +220,30 @@ public class General {
                     int batchUpdate = Arrays.stream(updateCounts).min().getAsInt();
                     if (batchUpdate >= 1) {
                         //proceed with adding empty grades
-                    } else {
-                        //fail
-                        return false;
+                        String queryGrades = "INSERT INTO grades(student_id, course_title, year, grade, passed) VALUES (?, ?, 2024, 0, false) ON CONFLICT (student_id, course_title) DO UPDATE SET grade = EXCLUDED.grade, year = EXCLUDED.year, passed = EXCLUDED.passed;";
+                        try (PreparedStatement preparedStatement1 = connection.prepareStatement(queryGrades)) {
+
+                            for (String course : courses) {
+                                preparedStatement1.setString(1, username);
+                                preparedStatement1.setString(2, course);
+                                preparedStatement1.addBatch();
+                            }
+
+                            try {
+                                int[] gradeCounts = preparedStatement1.executeBatch();
+                                int gradesUpdate = Arrays.stream(gradeCounts).min().getAsInt();
+                                if (gradesUpdate >= 1) {
+                                    connection.close();
+                                    return true;
+                                }
+
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                     }
                 } catch (NoSuchElementException e) {
                     e.printStackTrace();
