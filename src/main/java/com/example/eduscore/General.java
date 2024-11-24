@@ -179,7 +179,7 @@ public class General {
 
     public static boolean checkCourseSubmission(String username) {
         try (Connection connection = Database.getConnection()) {
-            String query = "SELECT 1 FROM submissions WHERE student_id = ? AND year = ?;";
+            String query = "SELECT * FROM submissions WHERE student_id = ? AND year = ?;";
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setString(1, username);
@@ -257,6 +257,7 @@ public class General {
         }
         return false;
     }
+
     public static List<List<String>> getGrades(String course, int year) {
         // returns student <student_id, grade> for that course and year
         List<List<String>> grades = new ArrayList<>();
@@ -284,6 +285,50 @@ public class General {
             e.printStackTrace();
         }
 
+        return null;
+    }
+
+    public static List<List<Object>> getTeacherGrades(String username) {
+        List<List<Object>> grades = new ArrayList<>();
+
+        try (Connection connection = Database.getConnection()) {
+            String query = "SELECT students.full_name,grades.course_title,grades.year,grades.grade FROM students RIGHT OUTER JOIN grades ON students.id = grades.student_id JOIN courses ON courses.title = grades.course_title WHERE courses.professor = ? ORDER BY course_title, year DESC;";
+            try {
+                assert connection != null;
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, username);
+
+                try (ResultSet result = preparedStatement.executeQuery()) {
+                    while (result.next()) {
+                        List<Object> grade = new ArrayList<>();
+                        grade.add(result.getString(1));
+                        grade.add(result.getString(2));
+                        grade.add(result.getInt(3));
+                        grade.add(result.getInt(4));
+                        grades.add(grade);
+                    }
+                    connection.close();
+                    return grades;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<List<Object>> getEmptyGrades (String username) {
+        List<List<Object>> grades = new ArrayList<>();
+
+        try (Connection connection = Database.getConnection()) {
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }

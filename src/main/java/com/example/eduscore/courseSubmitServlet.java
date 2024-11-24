@@ -26,7 +26,7 @@ public class courseSubmitServlet extends HttpServlet {
         if (General.submitCourses(courses, session.getAttribute("username").toString())) {
             response.sendRedirect(request.getContextPath() + "/Student/CourseSubmissionSuccess.jsp", false);
         } else {
-            response.sendRedirect(request.getContextPath() + "/Student",false);
+            response.sendRedirect(request.getContextPath() + "/Student/CourseSubmissionError.jsp",false);
         }
     }
 

@@ -25,7 +25,7 @@
 %>
 <%
     if (General.checkCourseSubmission(session.getAttribute("username").toString())) {
-        response.sendRedirect("/Student",false);
+        response.sendRedirect(request.getContextPath() + "/Student/SubmitPermissionDenied.jsp");
     }
 %>
 

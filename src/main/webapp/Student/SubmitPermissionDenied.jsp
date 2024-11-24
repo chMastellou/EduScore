@@ -11,7 +11,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/Images/logo.ico">
-    <title>Courses Submitted</title>
+    <title>Permission Denied</title>
 </head>
 <body style="background-color: #cbcbd0; height: 100vh;">
 <%
@@ -24,15 +24,9 @@
         response.sendRedirect("/");
     }
 %>
-<br><br><br><br><br>
-<h3 style="text-align: center; font-family:Ubuntu,sans-serif; color: #2c3e50;"><b>Courses selected successfully!</b></h3></b><br>
-<h3 style="text-align: center; font-family:Ubuntu,sans-serif; color: #2c3e50;">You will be redirected back to your home page shortly...
-    <br>Click <a href="${pageContext.request.contextPath}/Student">here</a> to go back.
-</h3>
+<br><br>
+<h3 style="text-align: center; font-family:Ubuntu,sans-serif; color: #2c3e50;">Submission not allowed: you have already chosen courses for academic year 2024-2025.</h3>
 
-<script>
-    setTimeout(function(){ window.location.href = "/Student"; }, 5000);
-</script>
 </body>
 </html>
 

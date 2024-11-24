@@ -11,7 +11,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/Images/logo.ico">
-    <title>Courses Submitted</title>
+    <title>Submission Failed</title>
 </head>
 <body style="background-color: #cbcbd0; height: 100vh;">
 <%
@@ -25,7 +25,7 @@
     }
 %>
 <br><br><br><br><br>
-<h3 style="text-align: center; font-family:Ubuntu,sans-serif; color: #2c3e50;"><b>Courses selected successfully!</b></h3></b><br>
+<h3 style="text-align: center; font-family:Ubuntu,sans-serif; color: #2c3e50;"><b>Something went wrong with your submission, please try again!</b></h3></b><br>
 <h3 style="text-align: center; font-family:Ubuntu,sans-serif; color: #2c3e50;">You will be redirected back to your home page shortly...
     <br>Click <a href="${pageContext.request.contextPath}/Student">here</a> to go back.
 </h3>
