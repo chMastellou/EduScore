@@ -44,7 +44,7 @@
             <ul>
                 <li><a href="#" onclick="showContent('Teacher/Profile.jsp')">Profile</a></li>
                 <li><a href="#" onclick="showContent('Teacher/Grades.jsp')">Grades</a></li>
-                <li><a href="#" onclick="showContent('Teacher/AddGrades.jsp')">Add Grades</a></li>
+                <li><a href="#" onclick="showContent('Teacher/AssignGrades.jsp')">Assign Grades</a></li>
                 <br><br><br><br>
             </ul>
         </nav>

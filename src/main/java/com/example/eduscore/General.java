@@ -258,7 +258,7 @@ public class General {
         return false;
     }
 
-    public static List<List<String>> getGrades(String course, int year) {
+    public static List<List<String>> getStudentGrades(String course, int year) {
         // returns student <student_id, grade> for that course and year
         List<List<String>> grades = new ArrayList<>();
 
@@ -325,10 +325,76 @@ public class General {
         List<List<Object>> grades = new ArrayList<>();
 
         try (Connection connection = Database.getConnection()) {
+            String query = "SELECT students.full_name,grades.course_title FROM students RIGHT OUTER JOIN grades ON students.id = grades.student_id JOIN courses ON courses.title = grades.course_title WHERE courses.professor = ? AND grades.grade = 0 AND grades.year = 2024 ORDER BY course_title;";
+
+            try {
+                assert connection != null;
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, username);
+
+                try (ResultSet result = preparedStatement.executeQuery()) {
+
+                    while (result.next()) {
+                        List<Object> grade = new ArrayList<>();
+                        grade.add(result.getString(1));
+                        grade.add(result.getString(2));
+                        grades.add(grade);
+                    }
+
+                    connection.close();
+                    return grades;
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
+
+    public static boolean assignGrades (int[] grades, String username) {
+        List<List<Object>> emptyGrades = getEmptyGrades(username);
+        if (emptyGrades != null) {
+            try (Connection connection = Database.getConnection()) {
+                String query = "UPDATE grades SET grade = ?, passed = CASE WHEN grade >= 50 THEN true ELSE false END WHERE course_title = ? AND student_id = (SELECT id FROM students WHERE full_name = ?);";
+                try {
+                    assert connection != null;
+                    PreparedStatement preparedStatement = connection.prepareStatement(query);
+                    if (emptyGrades.size() == grades.length) {
+                        int i = 0;
+                        for (List<Object> emptyGrade : emptyGrades) {
+                            preparedStatement.setInt(1, grades[i]);
+                            preparedStatement.setString(2, emptyGrade.getLast().toString());
+                            preparedStatement.setString(3, emptyGrade.getFirst().toString());
+                            preparedStatement.addBatch();
+                            i += 1;
+                        }
+
+                        try {
+                            int[] result = preparedStatement.executeBatch();
+                            int gradesUpdate = Arrays.stream(result).min().getAsInt();
+                            connection.close();
+                            if (gradesUpdate >= 1) {
+                                return true;
+                            }
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
 }
