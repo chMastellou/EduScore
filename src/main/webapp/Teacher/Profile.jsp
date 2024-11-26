@@ -31,22 +31,19 @@
     <div class="profile-header">
         <br><br><br><br>
         <img src="https://i.imgur.com/45BIKmP.png" alt="User Profile Picture" class="profile-picture" />
-        <h1 class="user-name">John Doe</h1> <!--Θέλει επαφή με βάση για students.full_name-->
+        <h1 class="user-name"><%=session.getAttribute("fullName")%></h1> <!--Θέλει επαφή με βάση για students.full_name-->
         <p class="user-title"><%=session.getAttribute("role")%></p>
     </div>
     <div class="profile-info">
         <h2>About</h2>
         <br>
         <li>University ID: <b><%=session.getAttribute("username")%></b></li>
-        <li>Field: <b>Computer Science</b></li> <!--Θέλει επαφή με βάση για students.field-->
-        <li>Rank: <b>Professor</b></li> <!--Θέλει επαφή με βάση για students.entrance_year-->
-
-        <h2>Contact Information</h2>
-        <ul>
-            <li>Email: johndoe@example.com</li> <!--Θέλει επαφή με βάση για students.email-->
-            <li>Phone: +123-456-7890</li> <!--Θέλει επαφή με βάση για professors.phone.-->
-            <li>Location: New York, USA</li> <!--Υποθετική διεύθυνση, είναι όλοι στο ίδιο πανεπιστήμιο-->
-        </ul>
+        <li>Rank: <b><%=session.getAttribute("rank")%></b></li>
+        <br>
+        <h2>Contact Information</h2><br>
+        <li>Email: <%=session.getAttribute("email")%></li>
+        <li>Phone: <%=session.getAttribute("phoneNumber")%></li>
+        <li>Office Address: <%=session.getAttribute("officeAddress")%></li>
     </div>
 </div>
 </body>

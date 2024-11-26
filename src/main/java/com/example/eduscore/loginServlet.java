@@ -1,6 +1,7 @@
 package com.example.eduscore;
 
 import java.io.*;
+import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
@@ -25,9 +26,18 @@ public class loginServlet extends HttpServlet {
             long last_login = session.getCreationTime();
 
             if (General.updateLastLogin(username, last_login)) {
-                response.sendRedirect("/Student");
-            } else { // δεν δούλεψε
-                System.out.println("Couldn't update last login");
+                List<Object> studentInfo = General.getStudentInfo(username);
+                if (studentInfo != null) {
+                    session.setAttribute("fullName", studentInfo.get(0));
+                    session.setAttribute("entranceYear", studentInfo.get(1));
+                    session.setAttribute("email", studentInfo.get(2));
+                    session.setAttribute("phoneNumber", studentInfo.get(3) );
+                    response.sendRedirect("/Student",false);
+                } else {
+                    session.invalidate();
+                    response.sendRedirect("/");
+                }
+            } else {
                 session.invalidate();
                 response.sendRedirect("/");
             }
@@ -41,8 +51,19 @@ public class loginServlet extends HttpServlet {
             long last_login = session.getCreationTime();
 
             if (General.updateLastLogin(username, last_login)) {
-               response.sendRedirect("/Teacher");
-            } else { // δεν δούλεψε
+                List<Object> professorInfo = General.getProfessorInfo(username);
+                if (professorInfo != null) {
+                    session.setAttribute("fullName", professorInfo.get(0));
+                    session.setAttribute("email", professorInfo.get(1));
+                    session.setAttribute("phoneNumber", professorInfo.get(2) );
+                    session.setAttribute("officeAddress", professorInfo.get(3));
+                    session.setAttribute("rank", professorInfo.get(4));
+                    response.sendRedirect("/Teacher",false);
+                } else {
+                    session.invalidate();
+                    response.sendRedirect("/");
+                }
+            } else { // δε δούλεψε
                 System.out.println("Couldn't update last login");
                 session.invalidate();
                 response.sendRedirect("/");

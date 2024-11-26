@@ -258,22 +258,23 @@ public class General {
         return false;
     }
 
-    public static List<List<String>> getStudentGrades(String course, int year) {
-        // returns student <student_id, grade> for that course and year
-        List<List<String>> grades = new ArrayList<>();
+    public static List<List<Object>> getStudentGrades(String username) {
+        List<List<Object>> grades = new ArrayList<>();
 
         try (Connection connection = Database.getConnection()) {
-            String query = "SELECT student_id,grade FROM grades WHERE course_title = ? and year = ?;";
+            String query = "SELECT grades.course_title,courses.year,grades.grade FROM grades RIGHT OUTER JOIN courses ON grades.course_title = courses.title WHERE grades.student_id = ? ORDER BY courses.year DESC, courses.title;";
 
             assert connection != null;
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, course);
-            preparedStatement.setInt(2, year);
-
+            preparedStatement.setString(1, username);
             try (ResultSet result = preparedStatement.executeQuery()) {
-                System.out.println(result);
-                // τι μορφής είναι το result
-                // πρέπει περαστεί στη λίστα grades
+                while (result.next()) {
+                    List<Object> grade = new ArrayList<>();
+                    grade.add(result.getString(1));
+                    grade.add(result.getInt(2));
+                    grade.add(result.getInt(3));
+                    grades.add(grade);
+                }
 
                 return grades;
             } catch (SQLException e) {
@@ -397,4 +398,62 @@ public class General {
         return false;
     }
 
+    public static List<Object> getStudentInfo(String username) {
+        List<Object> profileInfo = new ArrayList<>();
+
+        try (Connection connection = Database.getConnection()) {
+            String query = "SELECT full_name,entrance_year,email,phone_number FROM students WHERE id = ?;";
+
+            try {
+                assert connection != null;
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, username);
+
+                try (ResultSet result = preparedStatement.executeQuery()) {
+                    while (result.next()) {
+                        profileInfo.add(result.getString(1));
+                        profileInfo.add(result.getInt(2));
+                        profileInfo.add(result.getString(3));
+                        profileInfo.add(result.getString(4));
+                    }
+
+                    return profileInfo;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<Object> getProfessorInfo(String username) {
+        List<Object> professorInfo = new ArrayList<>();
+
+        try (Connection connection = Database.getConnection()) {
+            String query = "SELECT full_name, email, phone_number, office_addr, rank FROM professors WHERE id = ?;";
+
+            try {
+                assert connection != null;
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, username);
+                try (ResultSet result = preparedStatement.executeQuery()) {
+                    while (result.next()) {
+                        professorInfo.add(result.getString(1));
+                        professorInfo.add(result.getString(2));
+                        professorInfo.add(result.getString(3));
+                        professorInfo.add(result.getString(4));
+                        professorInfo.add(result.getString(5));
+                    }
+                    return professorInfo;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

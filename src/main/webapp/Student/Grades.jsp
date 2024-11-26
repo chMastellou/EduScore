@@ -1,4 +1,5 @@
-<%--
+<%@ page import="java.util.List" %>
+<%@ page import="com.example.eduscore.General" %><%--
   Created by IntelliJ IDEA.
   User: chara
   Date: 10/28/24
@@ -11,21 +12,46 @@
     <meta charset="UTF-8" />
     <title>Grades</title>
     <style>
-        <%@ include file="../resources/css/Profile_Page.css"%>
+        <%@ include file="../resources/css/grades.css"%>
     </style>
 </head>
-<body>
+<body class="body">
+<%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+    response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+    response.setHeader("Expires", "0"); // Proxies.
 
-<div class="profile-container">
-    <div class="profile-header">
-        <br><br><br><br>
-        <h1 class="user-name">Student Grades</h1> <!--Θέλει επαφή με βάση για students.full_name-->
-        <p class="user-title"></p>
-    </div>
-    <div class="profile-info">
-        <h2></h2>
-        <br>
-        <!--form -->
+    if(session.getAttribute("username")==null)
+    {
+        response.sendRedirect("/");
+    }
+
+%>
+<div class="container">
+    <h1>My Grades</h1>
+    <div class="table-container">
+        <table class="grades-table">
+            <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Year</th>
+                <th>Grade</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <%
+                List<List<Object>> grades = General.getStudentGrades(session.getAttribute("username").toString());
+                if (grades != null) {
+                    for (List<Object> grade : grades) {
+                        out.print("<tr><td>" + grade.getFirst() + "</td>");
+                        out.print("<td>" + grade.get(1) + "</td>");
+                        out.print("<td>" + grade.getLast() + "</td></tr>");
+                    }
+                }
+            %>
+            </tbody>
+        </table>
     </div>
 </div>
 </body>
