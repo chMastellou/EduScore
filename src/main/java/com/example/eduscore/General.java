@@ -7,9 +7,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 // Handles User Authentication and password hashing
 public class General {
+    private static final Pattern usernamePattern = Pattern.compile("^[SP]\\d{3}$");
+    private static final Pattern emailPatternStudent = Pattern.compile("^(?=.{1,64}@student\\.edu$)[a-zA-Z.]+@student\\.edu$"); //want to only allow dots
+    private static final Pattern emailPatternProfessor = Pattern.compile("^(?=.{1,64}@university\\.edu$)[a-zA-Z.]+@university\\.edu$");
+    private static final Pattern passwordPattern = Pattern.compile("^(?:(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))(?!.*(.)\\1{2,})[A-Za-z0-9!~<>,;:_=?*+#.\"&§%°()|\\[\\]\\-$^@/]{12,128}$");
 
     public static int validateUser(String username, String password) {
         //  2 for successfully validated teacher
@@ -73,7 +78,7 @@ public class General {
         return false;
     }
 
-    public static boolean registerUser(String username, String password, int userType) {
+    public static boolean registerUserOLD(String username, String password, int userType) {
 
         try (Connection connection = Database.getConnection()) {
             String query = "INSERT INTO users VALUES (?,?,?,null);";
@@ -100,6 +105,86 @@ public class General {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public static boolean inputFilter(String type, String input) {
+        switch (type) {
+            case "username":
+                if (usernamePattern.matcher(input).matches()) {
+                    return true;
+                }
+            case "password":
+                if (passwordPattern.matcher(input).matches()) {
+                    return true;
+                }
+            case "emailStudent":
+                if (emailPatternStudent.matcher(input).matches()) {
+                    return true;
+                }
+            case "emailProfessor":
+                if (emailPatternProfessor.matcher(input).matches()) {
+                    return true;
+                }
+        }
+        return false;
+    }
+
+    public static boolean registerUserNew(String email, String password, int userType) {
+
+        try (Connection connection = Database.getConnection()) {
+            assert connection != null;
+            String queryPersonExists = "";
+            if (userType == 1) {
+                queryPersonExists = "SELECT * FROM students WHERE email = ?;";
+            } else if (userType == 2) {
+                queryPersonExists = "SELECT * FROM professors WHERE email = ?;";
+            }
+            try (PreparedStatement preparedStatement1 = connection.prepareStatement(queryPersonExists)) {
+                preparedStatement1.setString(1, email);
+
+                try (ResultSet result = preparedStatement1.executeQuery()) {
+                    if (result.next()) {
+
+                        //Αυτό είναι το σημείο στο οποίο στέλνουμε αυτοματοποιημένο email μέσω του
+                        //mailgun για να επιβεβαιώσει ο χρήστης ότι θέλει να δημιουργήσει λογαριασμό.
+                        //Ας υποθέσουμε ότι επιβεβαιώνει, οπότε του στέλνουμε πίσω email ώστε να
+                        //μάθει το username του. Παράλληλα, με το username αυτό, τον προσθέτουμε
+                        //στον πίνακα users.
+                        boolean registerAuth = true;
+                        if (registerAuth) {
+                            String username = result.getString("id");
+                            String queryNewUser = "INSERT INTO users VALUES (?,?,?,null);";
+                            PreparedStatement preparedStatement = connection.prepareStatement(queryNewUser);
+                            preparedStatement.setString(1, username);
+                            preparedStatement.setString(2, BCrypt.hashpw(password, BCrypt.gensalt(12)));
+                            if (userType == 1) {
+                                preparedStatement.setInt(3, 1);
+                            } else if (userType == 2) {
+                                preparedStatement.setInt(3, 2);
+                            }
+
+                            try {
+                                int upd = preparedStatement.executeUpdate();
+                                if (upd == 1) {
+                                    connection.close();
+                                    return true;
+                                }
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
         return false;

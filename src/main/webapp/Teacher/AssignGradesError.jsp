@@ -25,7 +25,7 @@
     }
 %>
 <br><br><br><br><br>
-<h3 style="text-align: center; font-family:Ubuntu,sans-serif; color: #2c3e50;"><b>Something went wrong, please try again!</b></h3><b><br>
+<h3 style="text-align: center; font-family:Ubuntu,sans-serif; color: #2c3e50;"><b>Something went wrong, please try again!</b></h3><br>
 <h3 style="text-align: center; font-family:Ubuntu,sans-serif; color: #2c3e50;">You will be redirected back to your home page shortly...
     <br>Click <a href="${pageContext.request.contextPath}/Teacher">here</a> to go back.
 </h3>

@@ -21,7 +21,7 @@ public class registerServlet extends HttpServlet {
             userType = 2;
         }
 
-        if (General.registerUser(username, pass, userType)){
+        if (General.registerUserOLD(username, pass, userType)){
             response.sendRedirect("/");
         } else {
             response.sendRedirect("/Register.jsp");

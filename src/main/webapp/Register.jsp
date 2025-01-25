@@ -22,14 +22,18 @@
     <div class="login-box">
         <img src="https://i.imgur.com/kDAooXp.png" alt="Logo" width="100" class="center"/>
         <h2>New User</h2>
-        <form action="${pageContext.request.contextPath}/register" method="post">
+        <form action="${pageContext.request.contextPath}/register_new" method="post">
+<%--            <div class="input-group">--%>
+<%--                <label for="username">Username</label>--%>
+<%--                <input type="text" id="username" name="username" required>--%>
+<%--            </div>--%>
             <div class="input-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" minlength="12" maxlength="64" required>
             </div>
             <div class="input-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" minlength="12" maxlength="128"  required>
             </div>
             <div class="input-group">
                 <label for="dropdown">I am a:</label>

@@ -18,11 +18,11 @@
     <form action="${pageContext.request.contextPath}/login" method="post">
       <div class="input-group">
         <label for="username">Username</label>
-        <input type="text" id="username" name="username" required>
+        <input type="text" id="username" name="username" minlength="4" maxlength="4" required>
       </div>
       <div class="input-group">
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
+        <input type="password" id="password" name="password" minlength="12" maxlength="30" required>
       </div>
       <button type="submit">Login</button>
     </form>
