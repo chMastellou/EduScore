@@ -138,9 +138,9 @@ public class General {
             assert connection != null;
             String queryPersonExists = "";
             if (userType == 1) {
-                queryPersonExists = "SELECT * FROM students WHERE email = ?;";
+                queryPersonExists = "SELECT students.* FROM students LEFT JOIN users ON students.id = users.id WHERE users.id IS NULL and email = ?;";
             } else if (userType == 2) {
-                queryPersonExists = "SELECT * FROM professors WHERE email = ?;";
+                queryPersonExists = "SELECT professors.* FROM professors LEFT JOIN users ON professors.id = users.id WHERE users.id IS NULL and email = ?;";
             }
             try (PreparedStatement preparedStatement1 = connection.prepareStatement(queryPersonExists)) {
                 preparedStatement1.setString(1, email);
@@ -154,6 +154,7 @@ public class General {
                         //μάθει το username του. Παράλληλα, με το username αυτό, τον προσθέτουμε
                         //στον πίνακα users.
                         boolean registerAuth = true;
+
                         if (registerAuth) {
                             String username = result.getString("id");
                             String queryNewUser = "INSERT INTO users VALUES (?,?,?,null);";
