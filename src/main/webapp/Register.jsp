@@ -29,7 +29,7 @@
 <%--            </div>--%>
             <div class="input-group">
                 <label for="email">Email</label>
-                <input type="text" id="email" name="email" minlength="12" maxlength="64" required>
+                <input type="text" id="email" name="email" minlength="13" maxlength="64" required>
             </div>
             <div class="input-group">
                 <label for="password">Password</label>

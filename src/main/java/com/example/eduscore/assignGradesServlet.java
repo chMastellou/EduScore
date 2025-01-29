@@ -14,14 +14,34 @@ public class assignGradesServlet extends HttpServlet {
         response.setContentType("text/html");
 
         String[] assignedGradesStrings = request.getParameterValues("grade");
-        int[] assignedGrades = Stream.of(assignedGradesStrings).mapToInt(Integer::parseInt).toArray();
 
-        HttpSession session = request.getSession();
-        if (General.assignGrades(assignedGrades, session.getAttribute("username").toString())) {
-            response.sendRedirect(request.getContextPath() + "/Teacher/AssignGradesSuccess.jsp", false);
+        int[] assignedGrades = new int[assignedGradesStrings.length];
+        boolean gradesFiltered = true;
+        int i = 0;
+        while (gradesFiltered && (i < assignedGradesStrings.length)) {
+            if (General.inputFilter("grade", assignedGradesStrings[i])) {
+                try {
+                    assignedGrades[i] = Integer.parseInt(assignedGradesStrings[i]);
+                } catch (NumberFormatException e) {
+                    gradesFiltered = false;
+                }
+            } else {
+                gradesFiltered = false;
+            }
+            i += 1;
+        }
+
+        if (gradesFiltered) {
+            //int[] assignedGrades = Stream.of(assignedGradesStrings).mapToInt(Integer::parseInt).toArray();
+
+            HttpSession session = request.getSession();
+            if (General.assignGrades(assignedGrades, session.getAttribute("username").toString())) {
+                response.sendRedirect(request.getContextPath() + "/Teacher/AssignGradesSuccess.jsp", false);
+            }
         } else {
             response.sendRedirect(request.getContextPath() + "/Teacher/AssignGradesError.jsp",false);
         }
+
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

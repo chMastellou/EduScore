@@ -113,20 +113,37 @@ public class General {
     public static boolean inputFilter(String type, String input) {
         switch (type) {
             case "username":
-                if (usernamePattern.matcher(input).matches()) {
-                    return true;
+                if ((input != null) && (input.length() == 4)) {
+                    if (usernamePattern.matcher(input).matches()) {
+                        return true;
+                    }
                 }
             case "password":
-                if (passwordPattern.matcher(input).matches()) {
-                    return true;
+                if ((input != null) && (input.length() >= 12) && (input.length() <= 128)) {
+                    if (passwordPattern.matcher(input).matches()) {
+                        return true;
+                    }
                 }
             case "emailStudent":
-                if (emailPatternStudent.matcher(input).matches()) {
-                    return true;
+                if ((input != null) && (input.length() >= 13) && (input.length() <= 64)) {
+                    if (emailPatternStudent.matcher(input).matches()) {
+                        return true;
+                    }
                 }
             case "emailProfessor":
-                if (emailPatternProfessor.matcher(input).matches()) {
-                    return true;
+                if ((input != null) && (input.length() >= 16) && (input.length() <= 64)) {
+                    if (emailPatternProfessor.matcher(input).matches()) {
+                        return true;
+                    }
+                }
+            case "grade":
+                if ((input != null) && (input.matches("^\\d{1,3}$"))) {
+                    try {
+                        int grade = Integer.parseInt(input);
+                        return grade >= 0 && grade <= 100;
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                 }
         }
         return false;

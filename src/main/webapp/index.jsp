@@ -22,7 +22,7 @@
       </div>
       <div class="input-group">
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" minlength="12" maxlength="30" required>
+        <input type="password" id="password" name="password" minlength="12" maxlength="128" required>
       </div>
       <button type="submit">Login</button>
     </form>
