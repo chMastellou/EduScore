@@ -15,6 +15,11 @@ public class assignGradesServlet extends HttpServlet {
 
         String[] assignedGradesStrings = request.getParameterValues("grade");
 
+        if (assignedGradesStrings == null) {
+            response.sendRedirect(request.getContextPath() + "/Teacher/AssignGradesError.jsp",false);
+            return;
+        }
+
         int[] assignedGrades = new int[assignedGradesStrings.length];
         boolean gradesFiltered = true;
         int i = 0;
