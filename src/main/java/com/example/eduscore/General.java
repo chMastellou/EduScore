@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
 // Handles User Authentication and password hashing
 public class General {
     private static final Pattern usernamePattern = Pattern.compile("^[SP]\\d{3}$");
-    private static final Pattern emailPatternStudent = Pattern.compile("^(?=.{1,64}@student\\.edu$)[a-zA-Z.]+@student\\.edu$"); //want to only allow dots
-    private static final Pattern emailPatternProfessor = Pattern.compile("^(?=.{1,64}@university\\.edu$)[a-zA-Z.]+@university\\.edu$");
+    private static final Pattern emailPatternStudent = Pattern.compile("^(?=.{1,64}@student\\.edu$)[a-z.]+@student\\.edu$"); //want to only allow dots
+    private static final Pattern emailPatternProfessor = Pattern.compile("^(?=.{1,64}@university\\.edu$)[a-z.]+@university\\.edu$");
     private static final Pattern passwordPattern = Pattern.compile("^(?:(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))(?!.*(.)\\1{2,})[A-Za-z0-9!~<>,;:_=?*+#.\"&§%°()|\\[\\]\\-$^@/]{12,128}$");
 
     public static int validateUser(String username, String password) {
@@ -72,38 +72,6 @@ public class General {
                 connection.close();
             }
         } catch (SQLException e){
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
-    public static boolean registerUserOLD(String username, String password, int userType) {
-
-        try (Connection connection = Database.getConnection()) {
-            String query = "INSERT INTO users VALUES (?,?,?,null);";
-            assert connection != null; // το έβαλε μόνο του για να αντιμετωπίσει το warning
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, BCrypt.hashpw(password, BCrypt.gensalt(12)));
-            if (userType == 1) {
-                preparedStatement.setInt(3, 1);
-            } else if (userType == 2) {
-                preparedStatement.setInt(3, 2);
-            }
-
-            try {
-                int upd = preparedStatement.executeUpdate();
-                if (upd == 1) {
-                    connection.close();
-                    return true;
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                connection.close();
-            }
-
-        } catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -212,7 +180,7 @@ public class General {
         List<List<Object>> courses = new ArrayList<>();
 
         try (Connection connection = Database.getConnection()) {
-            String query = "SELECT courses.title, courses.ects FROM courses WHERE courses.year <= ? AND courses.title NOT IN (SELECT grades.course_title FROM grades WHERE grades.student_id = ? AND grades.passed = true);";
+            String query = "SELECT courses.title, courses.ects FROM courses WHERE courses.year <= ? AND courses.title NOT IN (SELECT grades.course_title FROM grades WHERE grades.student_id = ? AND grades.grade >= 50);";
 
             try {
                 assert connection != null;

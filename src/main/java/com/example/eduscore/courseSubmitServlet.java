@@ -15,6 +15,10 @@ public class courseSubmitServlet extends HttpServlet {
         response.setContentType("text/html");
 
         String[] selectedCourses = request.getParameterValues("course");
+        if (selectedCourses == null) {
+            response.sendRedirect(request.getContextPath() + "/Student/CourseSubmissionError.jsp",false);
+            return;
+        }
         List<String> courses = new ArrayList<>();
         //Discard unchecked courses
         for (String string : selectedCourses) {

@@ -1,10 +1,12 @@
 package com.example.eduscore;
 
-import java.io.*;
-
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 
 @WebServlet(name = "register", urlPatterns={"/register"})
 public class registerServlet extends HttpServlet {
@@ -12,20 +14,31 @@ public class registerServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
 
-        String username = request.getParameter("username");
+        String email = request.getParameter("email");
         String pass = request.getParameter("password");
         String userTypeChoice = request.getParameter("dropdown");
-        int userType = 1;
 
-        if (userTypeChoice.equals("Professor")) {
+        String page = "/Register.jsp";
+        int userType = 0;
+        boolean emailFiltered = true;
+
+        if (userTypeChoice.equals("Student")) {
+            userType = 1;
+            emailFiltered = General.inputFilter("emailStudent", email);
+        } else if (userTypeChoice.equals("Professor")) {
             userType = 2;
+            emailFiltered = General.inputFilter("emailProfessor", email);
         }
 
-        if (General.registerUserOLD(username, pass, userType)){
-            response.sendRedirect("/");
-        } else {
-            response.sendRedirect("/Register.jsp");
+        if (emailFiltered) {
+            if (General.inputFilter("password", pass)) {
+                if (General.registerUserNew(email, pass, userType)) {
+                    page = "/";
+                }
+            }
         }
+
+        response.sendRedirect(page);
 
     }
 

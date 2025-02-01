@@ -71,8 +71,6 @@ public class loginServlet extends HttpServlet {
                         response.sendRedirect("/");
                     }
 
-                } else if (General.validateUser(username, pass) == -1){
-                    response.sendRedirect("/");
                 } else {
                     response.sendRedirect("/");
                 }
