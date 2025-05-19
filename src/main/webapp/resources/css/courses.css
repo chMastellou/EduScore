@@ -10,8 +10,8 @@
 
 .form-container {
     text-align: center;
-    width: 40%;
-    max-width: 70%;
+    width: 60%;
+    /*max-width: 70%;*/
     padding: 20px;
     background: #fff;
     border: 1px solid #ddd;

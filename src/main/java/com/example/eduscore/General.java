@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 // Handles User Authentication and password hashing
 public class General {
-    private static final Pattern usernamePattern = Pattern.compile("^[SP]\\d{3}$");
+    private static final Pattern usernamePattern = Pattern.compile("^[SPA]\\d{3}$");
     private static final Pattern emailPatternStudent = Pattern.compile("^(?=.{1,64}@student\\.edu$)[a-z.]+@student\\.edu$"); //want to only allow dots
     private static final Pattern emailPatternProfessor = Pattern.compile("^(?=.{1,64}@university\\.edu$)[a-z.]+@university\\.edu$");
     private static final Pattern passwordPattern = Pattern.compile("^(?:(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))(?!.*(.)\\1{2,})[A-Za-z0-9!~<>,;:_=?*+#.\"&§%°()|\\[\\]\\-$^@/]{12,128}$");
@@ -19,7 +19,7 @@ public class General {
     public static int validateUser(String username, String password) {
         //  2 for successfully validated teacher
         //  1 for successfully validated student
-        //  0 reserved for future use
+        //  0 for successfully validated admin
         //  -1 no validation
         try (Connection connection = Database.getConnection()) {
             String query = "SELECT pass,user_type FROM users WHERE id = ?;";
@@ -35,12 +35,16 @@ public class General {
                     if (BCrypt.checkpw(password, storedHash)) {
                         int userType = result.getInt("user_type");
                         if (userType == 1) {
+                            System.out.println("validated user");
                             return 1;
                         } else if (userType == 2) {
                             return 2;
+                        } else if (userType == 0) {
+                            return 0;
                         }
                     }
                 }
+
             } catch (SQLException e) {
                 e.printStackTrace();
                 connection.close();
@@ -53,7 +57,7 @@ public class General {
         return -1;
     }
 
-    public static boolean updateLastLogin(String username , long unixTime) {
+    public static boolean updateLastLogin(String username, long unixTime) {
         try (Connection connection = Database.getConnection()){
             // Add login timestamp
             String query = "UPDATE users SET last_login = to_timestamp(? / 1000.0) WHERE id = ?;";
@@ -132,7 +136,6 @@ public class General {
 
                 try (ResultSet result = preparedStatement1.executeQuery()) {
                     if (result.next()) {
-
                         //Αυτό είναι το σημείο στο οποίο στέλνουμε αυτοματοποιημένο email μέσω του
                         //mailgun για να επιβεβαιώσει ο χρήστης ότι θέλει να δημιουργήσει λογαριασμό.
                         //Ας υποθέσουμε ότι επιβεβαιώνει, οπότε του στέλνουμε πίσω email ώστε να
@@ -527,4 +530,355 @@ public class General {
         }
         return null;
     }
+
+    public static boolean deleteAccount(String username) {
+        try (Connection connection = Database.getConnection()) {
+            String query = "DELETE FROM users WHERE id = ?;";
+
+            try {
+                assert connection != null;
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, username);
+                int upd = preparedStatement.executeUpdate();
+                if (upd == 1) {
+                    System.out.println("User deleted.");
+                    connection.close();
+                    return true;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean removeSubmission(String username) {
+        try (Connection connection = Database.getConnection()) {
+            String query = "DELETE FROM submissions WHERE student_id = ?;";
+
+            try {
+                assert connection != null;
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, username);
+                int upd = preparedStatement.executeUpdate();
+                if (upd != 0) {
+                    connection.close();
+                    return true;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static int getGeneralGrade(String username) {
+        int grade = 0;
+
+        try (Connection connection = Database.getConnection()) {
+            String query = "SELECT grade FROM grades WHERE student_id = ? AND grade >= 50;";
+
+            try {
+                assert connection != null;
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, username);
+
+                try (ResultSet result = preparedStatement.executeQuery()) {
+                    connection.close();
+                    int size = 0;
+                    while (result.next()) {
+                        grade += result.getInt(1);
+                        size += 1;
+                    }
+                    if (size != 0) {
+                        return grade / size;
+                    }
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return grade;
+    }
+
+    public static int getPassed(String username) {
+        int passed = 0;
+
+        try (Connection connection = Database.getConnection()) {
+            String query = "SELECT grade FROM grades WHERE student_id = ? AND grade >= 50;";
+
+            try {
+                assert connection != null;
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, username);
+                try (ResultSet result = preparedStatement.executeQuery()) {
+                    connection.close();
+                    while (result.next()) {
+                        passed += 1;
+                    }
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return passed;
+    }
+
+    public static int getFailed(String username) {
+        int failed = 0;
+
+        try (Connection connection = Database.getConnection()) {
+            String query = "SELECT grade FROM grades WHERE student_id = ? AND grade < 50;";
+
+            try {
+                assert connection != null;
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, username);
+                try (ResultSet result = preparedStatement.executeQuery()) {
+                    connection.close();
+                    while (result.next()) {
+                        failed += 1;
+                    }
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return failed;
+    }
+
+    public static List<List<Object>> getPriority(String username) {
+        List<List<Object>> priorityList = new ArrayList<>();
+
+        try (Connection connection = Database.getConnection()) {
+            String query = "SELECT grades.course_title,courses.year,grades.grade FROM grades RIGHT OUTER JOIN courses ON grades.course_title = courses.title WHERE grades.student_id = ? AND grades.grade >= 50 AND grades.grade <= 80 ORDER BY grades.grade, courses.title;";
+
+            assert connection != null;
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            try (ResultSet result = preparedStatement.executeQuery()) {
+                connection.close();
+                while (result.next()) {
+                    List<Object> course = new ArrayList<>();
+                    course.add(result.getString(1));
+                    course.add(result.getInt(2));
+                    course.add(result.getInt(3));
+                    priorityList.add(course);
+                }
+                return priorityList;
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                connection.close();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static int getCourseMedian(String courseTitle) {
+        int grade = 0;
+
+        try (Connection connection = Database.getConnection()) {
+            String query = "SELECT AVG(grade) FROM grades WHERE course_title = ? AND grade >= 50;";
+
+            try {
+                assert connection != null;
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, courseTitle);
+
+                try (ResultSet result = preparedStatement.executeQuery()) {
+                    connection.close();
+                    if (result.next()) {
+                        grade = (int)result.getDouble(1);
+                    }
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return grade;
+    }
+
+    public static int getCoursePassRate(String courseTitle) {
+        int rate = 0;
+
+        try (Connection connection = Database.getConnection()) {
+            String query = "SELECT COUNT(CASE WHEN grade >= 50 THEN 1 END) * 100.0 / COUNT(*) AS pass_rate FROM grades WHERE course_title = ?;";
+
+            try {
+                assert connection != null;
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, courseTitle);
+
+                try (ResultSet result = preparedStatement.executeQuery()) {
+                    connection.close();
+                    if (result.next()) {
+                        rate = (int)result.getDouble(1);
+                    }
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rate;
+    }
+
+    public static List<List<Object>> getCourseInsights(String username) {
+        List<List<Object>> courseList = new ArrayList<>();
+
+        try (Connection connection = Database.getConnection()) {
+            String query = "SELECT title, ects FROM courses WHERE year = ?;";
+
+            assert connection != null;
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, getStudentYear(username));
+            try (ResultSet result = preparedStatement.executeQuery()) {
+                connection.close();
+
+                while (result.next()) {
+                    List<Object> course = new ArrayList<>();
+                    String title = result.getString(1);
+                    course.add(title);
+                    course.add(result.getInt(2));
+                    course.add(getCourseMedian(title));
+                    course.add(getCoursePassRate(title));
+                    courseList.add(course);
+                }
+                return courseList;
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                connection.close();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static List<List<Object>> getCourseStatistics(String username) {
+        List<List<Object>> courseList = new ArrayList<>();
+
+        try (Connection connection = Database.getConnection()) {
+            String query = "SELECT title FROM courses WHERE professor = ?;";
+
+            assert connection != null;
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            try (ResultSet result = preparedStatement.executeQuery()) {
+                connection.close();
+
+                while (result.next()) {
+                    List<Object> course = new ArrayList<>();
+                    String title = result.getString(1);
+                    course.add(title);
+                    course.add(getCourseMedian(title));
+                    course.add(getCoursePassRate(title));
+                    courseList.add(course);
+                }
+                return courseList;
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                connection.close();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static List<List<Object>> getGradingPriority(String username) {
+        List<List<Object>> priorityList = new ArrayList<>();
+
+        try (Connection connection = Database.getConnection()) {
+            String query = "SELECT c.title, COUNT(*) FROM courses c JOIN grades g ON c.title = g.course_title WHERE c.professor = ? AND g.grade = 0 GROUP BY c.title ORDER BY COUNT(*) DESC;";
+
+            assert connection != null;
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            try (ResultSet result = preparedStatement.executeQuery()) {
+                connection.close();
+                int i = 1;
+                while (result.next()) {
+                    List<Object> course = new ArrayList<>();
+                    course.add(i);
+                    course.add(result.getString(1));
+                    course.add(result.getInt(2));
+                    priorityList.add(course);
+                    i += 1;
+                }
+                return priorityList;
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                connection.close();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static List<List<Object>> getClassrooms(String username) {
+        List<List<Object>> priorityList = new ArrayList<>();
+
+        try (Connection connection = Database.getConnection()) {
+            String query = "SELECT c.title, COUNT(*) FROM courses c JOIN grades g ON c.title = g.course_title WHERE c.professor = ? AND g.grade = 0 GROUP BY c.title ORDER BY COUNT(*) DESC;";
+
+            assert connection != null;
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            try (ResultSet result = preparedStatement.executeQuery()) {
+                connection.close();
+                while (result.next()) {
+                    List<Object> course = new ArrayList<>();
+                    course.add(result.getString(1));
+                    course.add(result.getInt(2));
+                    course.add(result.getInt(2) / 30 + 1);
+                    priorityList.add(course);
+                }
+                return priorityList;
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                connection.close();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 }

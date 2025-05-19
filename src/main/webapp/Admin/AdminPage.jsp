@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Student Page</title>
+    <title>Admin Page</title>
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/Images/logo.ico">
 
     <style>
@@ -19,7 +19,7 @@
     </style>
 
 </head>
-<body onload="showContent('Student/Profile.jsp')">
+<body onload="showContent('Admin/Dashboard.jsp')">
 
 <%
     response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
@@ -38,14 +38,12 @@
     <div class="left-menu">
         <img src="https://i.imgur.com/lDhdDkK.png" alt="Logo" width="100"/>
         <p><b class="left-menu"><%=session.getAttribute("username")%></b></p>
-        <p class="role_tag">STUDENT</p>
+        <p class="role_tag">ADMIN</p>
         <br><br><br><br><br>
         <nav>
             <ul>
-                <li><a href="#" onclick="showContent('Student/Profile.jsp')">Profile</a></li>
-                <li><a href="#" onclick="showContent('Student/Grades.jsp')">Grades</a></li>
-                <li><a href="#" onclick="showContent('Student/Courses.jsp')">Choose Courses</a></li>
-                <li><a href="#" onclick="showContent('Student/Advisor.jsp')">Advisor 🎓</a></li>
+                <li><a href="#" onclick="showContent('Admin/Profile.jsp')">Profile</a></li>
+                <li><a href="#" onclick="showContent('Admin/Dashboard.jsp')">Dashboard</a></li>
             </ul>
         </nav>
 

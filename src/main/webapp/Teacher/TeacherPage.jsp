@@ -45,6 +45,7 @@
                 <li><a href="#" onclick="showContent('Teacher/Profile.jsp')">Profile</a></li>
                 <li><a href="#" onclick="showContent('Teacher/Grades.jsp')">Grades</a></li>
                 <li><a href="#" onclick="showContent('Teacher/AssignGrades.jsp')">Assign Grades</a></li>
+                <li><a href="#" onclick="showContent('Teacher/Assistant.jsp')">Assistant ✒️</a></li>
                 <br><br><br><br>
             </ul>
         </nav>

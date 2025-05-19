@@ -45,10 +45,10 @@
                 List<List<Object>> grades = General.getTeacherGrades(session.getAttribute("username").toString());
                 if (grades != null) {
                     for (List<Object> grade : grades) {
-                        out.print("<tr><td>" + grade.getFirst() + "</td>");
+                        out.print("<tr><td>" + grade.get(0) + "</td>");
                         out.print("<td>" + grade.get(1) + "</td>");
                         out.print("<td>" + grade.get(2) + "</td>");
-                        out.print("<td>" + grade.getLast() + "</td></tr>");
+                        out.print("<td>" + grade.get(3) + "</td></tr>");
                     }
                 }
             %>
