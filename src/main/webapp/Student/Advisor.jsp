@@ -117,24 +117,7 @@
             </tbody>
         </table>
     </section>
-
-    <section class="report-section">
-        <h2> Suggested Courses to Take Next </h2>
-        <table class="report-table">
-            <thead>
-            <tr>
-                <th>Course</th>
-                <th>Professor</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Machine Learning</td>
-                <td>John Snow</td>
-            </tr>
-            </tbody>
-        </table>
-    </section>
+    
 </div>
 </body>
 </html>

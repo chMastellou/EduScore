@@ -864,7 +864,7 @@ public class General {
                     List<Object> course = new ArrayList<>();
                     course.add(result.getString(1));
                     course.add(result.getInt(2));
-                    course.add(result.getInt(2) / 30 + 1);
+                    course.add(result.getInt(2) / 10 + 1);
                     priorityList.add(course);
                 }
                 return priorityList;

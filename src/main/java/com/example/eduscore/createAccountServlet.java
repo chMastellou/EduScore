@@ -31,7 +31,6 @@ public class createAccountServlet extends HttpServlet {
 
         if (emailFiltered) {
             if (General.inputFilter("password", "chANGE1t!!??")) {
-                System.out.println("servlet: pw filtered");
                 if (General.registerUserNew(email, "chANGE1t!!??", userType)) {
                     System.out.println("servlet: user created");
                     response.sendRedirect(page, false);
